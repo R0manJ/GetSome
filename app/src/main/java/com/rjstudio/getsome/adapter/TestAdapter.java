@@ -11,8 +11,8 @@ import java.util.List;
  * Created by r0man on 2017/8/11.
  */
 
-public class SimpleAdapter<T> extends BaseAdapter<String> {
-    public SimpleAdapter(Context context, List<String> list, int layoutId) {
+public class TestAdapter<T> extends BaseAdapter<String> {
+    public TestAdapter(Context context, List<String> list, int layoutId) {
         super(context, list, layoutId);
     }
 

@@ -4,15 +4,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rjstudio.getsome.R;
+import com.rjstudio.getsome.adapter.VPItemAdapter;
 import com.rjstudio.getsome.bean.ConsumeItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,22 +31,23 @@ public class ContentFragment extends Fragment {
     private TextView tv_totalAmount;
     private RecyclerView rc_content;
     private List<ConsumeItem> mList;
-
+    String TAG = "ContentFragment";
     // HashMap
     // Date -- List
     public ContentFragment() {
         super();
+        mList = new ArrayList<ConsumeItem>();
     }
 
     public void setData(List<ConsumeItem> list)
     {
-        mList = list;
+        mList.addAll(list);
 
     }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG, "onCreate: complete");
 
     }
 
@@ -64,6 +69,9 @@ public class ContentFragment extends Fragment {
 
     public void initRecyclerView()
     {
+        VPItemAdapter vpItemAdapter = new VPItemAdapter(getContext(),mList,R.layout.item_layout_1);
+        rc_content.setAdapter(vpItemAdapter);
+        rc_content.setLayoutManager(new LinearLayoutManager(getContext()));
         //Adapter
 
         //setAdapter
