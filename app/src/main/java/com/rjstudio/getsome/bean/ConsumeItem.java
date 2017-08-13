@@ -9,6 +9,15 @@ public class ConsumeItem {
     int TypeIcon;
     String ConsumeName;
     float Amount;
+    long date;
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
 
     public int getConsumeType() {
         return ConsumeType;
