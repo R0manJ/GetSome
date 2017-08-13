@@ -82,6 +82,11 @@ public class CnToolbar extends Toolbar {
 //        bu_left.setBackground();
         bu_left.setText(text);
     }
+    public Button setLeftButtonTexts(String text)
+    {
+        setLeftButtonText(text);
+        return bu_left;
+    }
 
     public Button getLeftButton()
     {
@@ -105,5 +110,10 @@ public class CnToolbar extends Toolbar {
     public void setRightButtonText(String text)
     {
         bu_right.setText(text);
+    }
+    public Button setRightButtonTexts(String text)
+    {
+        setRightButtonText(text);
+        return bu_right;
     }
 }

@@ -7,4 +7,6 @@
     <string name="lunch">LUNCH</string>
     <string name="dinner">DINNER</string>
     <string name="acount">Account</string>
+    <string name="remark">Remark</string>
+    <string name="save">Save</string>
 </resources>

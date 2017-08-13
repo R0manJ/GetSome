@@ -27,6 +27,7 @@ public class DataProvider {
     private Long date;
     Calendar calendar = Calendar.getInstance();
 
+    String TAG = "TEST";
     public DataProvider(Context context,Long date)
     {
 
@@ -34,6 +35,7 @@ public class DataProvider {
 //        datas = new SparseArray<>();
         //装载数据
 //        listToSparse();
+        Log.d(TAG, "DataProvider: "+date);
         this.date = date;
         consumeItemList = getDataFromLoacl(date);
     }
@@ -135,11 +137,11 @@ public class DataProvider {
 
     public void put(ConsumeItem consumeItem)
     {
-        Long date = consumeItem.getDate();
-        ConsumeItem item = convertData(consumeItem);
-        DateReocord dateReocords = datas.get(date.intValue());
-        List<ConsumeItem> consumeItems = dateReocords.getmList();
-        consumeItems.add(consumeItem);
+//        Long date = consumeItem.getDate();
+//        ConsumeItem item = convertData(consumeItem);
+//        DateReocord dateReocords = datas.get(date.intValue());
+//        List<ConsumeItem> consumeItems = dateReocords.getmList();
+        consumeItemList.add(consumeItem);
         commit();
     }
 

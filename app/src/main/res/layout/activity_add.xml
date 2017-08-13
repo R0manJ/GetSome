@@ -31,14 +31,14 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_below="@id/tv_setAmount"
-            android:text="@string/test" />
+            android:text="@string/acount" />
 
         <TextView
             android:id="@+id/tv_setRemark"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_below="@id/tv_setType"
-            android:text="@string/test" />
+            android:text="@string/remark" />
 
         <TextView
             android:layout_width="match_parent"
