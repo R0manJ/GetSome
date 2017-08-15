@@ -145,6 +145,15 @@ public class DataProvider {
         commit();
     }
 
+    public List<ConsumeItem> get(long date)
+    {
+        List mList = new ArrayList();
+        String json = PreferencesUtils.getString(mContext,date+"");
+        Log.d(TAG, "get: json is "+json);
+        mList = JSONUtil.fromJson(json,new TypeToken<List<ConsumeItem>>(){}.getType());
+        return mList;
+    }
+
 //    private void commit ()
 //    {
 //        List<DateReocord> dateReocords = sparseToList();

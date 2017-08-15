@@ -102,7 +102,14 @@ public class AddActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //TODO : consmueItem set;
-                        dataProvider.put(null);
+                        ConsumeItem consumeItem = new ConsumeItem();
+                        consumeItem.setConsumeName("xxx"+"");
+                        consumeItem.setTypeIcon(1);
+                        consumeItem.setAmount(22.77f);
+                        consumeItem.setConsumeType(1);
+                        consumeItem.setDate(date);
+                        dataProvider.put(consumeItem);
+                        finish();
                     }
                 });
         //TODO : getApplication & this ?

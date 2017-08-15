@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Created by r0man on 2017/8/13.
@@ -24,7 +25,9 @@ public class JSONUtil {
 
     public static <T> T fromJson(String json , Type type)
     {
-        return gson.fromJson(json,type);
+        if (json != null)
+            return gson.fromJson(json,type);
+        return (T)new ArrayList<T>();
     }
 
     public static String toJson(Object obj)

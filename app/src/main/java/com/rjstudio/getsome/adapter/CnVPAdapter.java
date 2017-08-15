@@ -19,12 +19,13 @@ public class CnVPAdapter extends FragmentPagerAdapter {
 
     private List<ContentFragment> mList;
     public static int maxPage = Integer.MAX_VALUE - 1;
-    public static int centerPosition = 1073741820;
+    public static int centerPosition = 1073741850;
     // 0x7fffffff hx / 34359738367 -1
 
     private String TAG = "CnVPAdapter";
     public CnVPAdapter(FragmentManager fm, List<ContentFragment> list)
     {
+
         super(fm);
         this.mList = new ArrayList<ContentFragment>();
         this.mList.addAll(list);
@@ -35,26 +36,26 @@ public class CnVPAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position)
     {
+        return mList.get(position%10);
+//        int index = position % 10;
+//        if (index == 0)
+//        {
+//            return mList.get(5);
+//        }
+//        else if (index > 5)
+//        {
+//            if (index == 9) return mList.get(4);
+//            return mList.get(index%5);
+//        }
+//        else if (index < 5)
+//        {
+//            if (index == 0) return mList.get(5);
+//            return mList.get(5 + index);
+//        }
+//
+//        return null;
 
-        int offSet;
-        Log.d(TAG, "getItem: list size - " + mList.size() + " current position :"+position);
-        if (position > centerPosition)
-        {
-            // slide right
-            offSet = (position - centerPosition)%3;
-            return mList.get(2 - offSet);
-        }
-        else if (position < centerPosition)
-        {
-            // slide left
-            offSet = (centerPosition - position)%3 ;
-            return mList.get(2+offSet);
-        }
-        else if (position%3 == 0)
-        {
-            return mList.get(2);
-        }
-        return null;
+
     }
 
     @Override
