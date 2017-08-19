@@ -60,15 +60,7 @@ public class AddActivity extends AppCompatActivity {
     {
         context = this;
         intent = getIntent();
-        String currentDate = intent.getStringExtra("Date");
-        String[] dateToLong = currentDate.split("-");
-        currentDate = new String();
-        for (String s : dateToLong)
-        {
-            currentDate += s;
-        }
-//        Log.d(TAG,currentDate);
-        date = Long.parseLong(currentDate);
+        date = intent.getLongExtra("Date",0);
 //        Log.d(TAG,"long:"+Long.parseLong(currentDate));
         dataProvider = new DataProvider(this,date);
         //取到当前日期用于保存道sp中的当天消费记录,这里是新建项目，则修改List<ConsumeItem>里面即可；

@@ -13,8 +13,10 @@ import java.util.List;
 
 public class VPItemAdapter extends BaseAdapter<ConsumeItem> {
 
+    List<ConsumeItem> list;
     public VPItemAdapter(Context context, List<ConsumeItem> list, int layoutId) {
         super(context, list, layoutId);
+        this.list = list;
     }
 
     @Override
@@ -22,5 +24,12 @@ public class VPItemAdapter extends BaseAdapter<ConsumeItem> {
         baseViewHolder.findTextView(R.id.tv_typeName).setText(consumeItem.getConsumeName());
         baseViewHolder.findTextView(R.id.tv_typeAmount).setText(consumeItem.getAmount() + " $ ");
 
+    }
+
+    public void refreshData(List<ConsumeItem > newData)
+    {
+        list.clear();
+        list.addAll(newData);
+        notifyItemRangeChanged(0,newData.size());
     }
 }

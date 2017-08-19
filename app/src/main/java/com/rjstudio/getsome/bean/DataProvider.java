@@ -4,12 +4,15 @@ import android.content.Context;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.rjstudio.getsome.utility.JSONUtil;
 import com.rjstudio.getsome.utility.PreferencesUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -145,11 +148,20 @@ public class DataProvider {
         commit();
     }
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+    public List<ConsumeItem> get(Date date)
+    {
+        List mList = new ArrayList();
+        long dateIndex = Long.parseLong(sdf.format(date));
+        mList = JSONUtil.fromJson(PreferencesUtils.getString(mContext,dateIndex+""),new TypeToken<List<ConsumeItem>>(){}.getType());
+        return mList;
+    }
     public List<ConsumeItem> get(long date)
     {
         List mList = new ArrayList();
         String json = PreferencesUtils.getString(mContext,date+"");
-        Log.d(TAG, "get: json is "+json);
+        Log.d(TAG, date + " get: json is "+json);
         mList = JSONUtil.fromJson(json,new TypeToken<List<ConsumeItem>>(){}.getType());
         return mList;
     }

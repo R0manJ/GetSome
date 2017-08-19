@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.rjstudio.getsome.R;
 import com.rjstudio.getsome.adapter.VPItemAdapter;
 import com.rjstudio.getsome.bean.ConsumeItem;
+import com.rjstudio.getsome.bean.DataProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ public class ContentFragment extends Fragment {
     private List<ConsumeItem> mList;
     String TAG = "ContentFragment";
     private long date;
-    private Handler handler;
+    private VPItemAdapter vpItemAdapter;
+    private DataProvider dataProvider;
 
     // HashMap
     // Date -- List
@@ -49,17 +51,33 @@ public class ContentFragment extends Fragment {
 
     public void setData(List<ConsumeItem> list,Handler handler)
     {
+        Log.d(TAG, "setData: +"+list.size()+"---+m");
         if (list != null)
+        {
+//            Log.d(TAG, "setData: not null ");
+            Log.d(TAG, "setData: +"+list.size()+"---+m");
             mList.addAll(list);
+        }
+        else 
+        {
+            Log.d(TAG, "setData: null");
+        }
 
-        this.handler = handler;
+        //test Data
+        for (ConsumeItem consumeItem : mList)
+        {
+            Log.d("XXX",consumeItem.getDate()+"--"+consumeItem.getConsumeName()+"");
+        }
+//        this.handler = handler;
 
     }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: complete");
-
+        dataProvider = new DataProvider(getContext(),this.date);
+        mList.clear();
+        mList = dataProvider.get(date);
     }
 
     public void setDate(Date date)
@@ -67,7 +85,9 @@ public class ContentFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String da = sdf.format(date);
         this.date = Long.parseLong(da);
+        Log.d(TAG, "setDate: "+this.date+"---");
     }
+
     public long getDate()
     {
         return date;
@@ -101,17 +121,26 @@ public class ContentFragment extends Fragment {
 
     public void initRecyclerView()
     {
-        Log.d(TAG, "initRecyclerView: list size "+mList.size());
-        VPItemAdapter vpItemAdapter = new VPItemAdapter(getContext(),mList,R.layout.item_layout_1);
-        for (ConsumeItem c : mList)
-        {
-            Log.d(TAG, c.getDate()+"----"+"initRecyclerView: "+c.getConsumeName());
-        }
+//        Log.d(TAG, "initRecyclerView: list size "+mList.size());
+        vpItemAdapter = new VPItemAdapter(getContext(),mList, R.layout.item_layout_1);
+//        for (ConsumeItem c : mList)
+//        {
+//            Log.d(TAG, c.getDate()+"----"+"initRecyclerView: "+c.getConsumeName());
+//        }
         rc_content.setAdapter(vpItemAdapter);
         rc_content.setLayoutManager(new LinearLayoutManager(getContext()));
         //Adapter
 
         //setAdapter
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        Log.d(TAG, "onResume: Fragment --- "+mList.size());
+        vpItemAdapter.refreshData(dataProvider.get(date));
+        vpItemAdapter.notifyItemRangeChanged(0,mList.size());
 
     }
 }

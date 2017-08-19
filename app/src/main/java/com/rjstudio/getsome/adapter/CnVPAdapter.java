@@ -20,6 +20,9 @@ public class CnVPAdapter extends FragmentPagerAdapter {
     private List<ContentFragment> mList;
     public static int maxPage = Integer.MAX_VALUE - 1;
     public static int centerPosition = 1073741850;
+    public static int postionIn5x = ( (Integer.MAX_VALUE/2)/5 ) * 5;
+    public static int positionIn10x = ( (Integer.MAX_VALUE/2)/10 ) * 10;
+    public static int positionIn3th = ( (Integer.MAX_VALUE/2)/10 ) * 10 + 2;
     // 0x7fffffff hx / 34359738367 -1
 
     private String TAG = "CnVPAdapter";
@@ -27,16 +30,19 @@ public class CnVPAdapter extends FragmentPagerAdapter {
     {
 
         super(fm);
+
         this.mList = new ArrayList<ContentFragment>();
         this.mList.addAll(list);
+//        this.mList = list;
         Log.d(TAG, "CnVPAdapter: "+centerPosition);
         Log.d(TAG, "CnVPAdapter: initializing completed! Max page amount is "+ maxPage +"--- list size "+ list.size());
     }
 
+
     @Override
     public Fragment getItem(int position)
     {
-        return mList.get(position%10);
+        return mList.get(position % mList.size());
 //        int index = position % 10;
 //        if (index == 0)
 //        {
@@ -52,10 +58,15 @@ public class CnVPAdapter extends FragmentPagerAdapter {
 //            if (index == 0) return mList.get(5);
 //            return mList.get(5 + index);
 //        }
-//
+
 //        return null;
 
 
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position%10);
     }
 
     @Override
@@ -66,6 +77,7 @@ public class CnVPAdapter extends FragmentPagerAdapter {
     public void refreshData(List<ContentFragment> data)
     {
         Log.d(TAG, "1refreshData: list size :"+mList.size()+"--data size: "+data.size());
+
         mList.clear();
         mList.addAll(data);
         notifyDataSetChanged();

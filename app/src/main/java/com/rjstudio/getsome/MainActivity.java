@@ -7,10 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.rjstudio.getsome.adapter.CnVPAdapter;
+import com.rjstudio.getsome.adapter.CnViewPageAdapter;
 import com.rjstudio.getsome.bean.Consume;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private int lastPosition;
     private DataProvider dataProvider;
     private List<List<ConsumeItem>> fragmentData;
-    private ContentFragment contentFragment;
     private String initCurrentDate;
     private Calendar ca;
 
@@ -56,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
             //oolbar.getLeftButton().setText(msg.obj+"");
         }
     };
-    private String editDate;
-    private Calendar editCalendar;
+    private ContentFragment contentFragment;
+    private List<Date> dateList;
+    private List<ContentFragment> fragmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,25 +76,26 @@ public class MainActivity extends AppCompatActivity {
     private void initData()
     {
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        lastPosition = CnVPAdapter.centerPosition;
-        calendar = Calendar.getInstance();
-        initCurrentDate = simpleDateFormat.format(calendar.getTime());
+        lastPosition = CnVPAdapter.positionIn3th;
+        ca = Calendar.getInstance();
+        dataProvider = new DataProvider(this,ca.getTime().getTime());
+        //装载完10个fragment ，等待转载日期
+        dateList = loadDateToFragment(2);
 
-        long currentDateL = Long.parseLong(initCurrentDate);
-        Log.d(TAG, "long currentDate"+(currentDateL-2));
-        dataProvider = new DataProvider(this,currentDateL);
-        //抽取5个集合，当前天数 -/+ 2
-        fragmentData = new ArrayList<>();
-
-        Log.d(TAG, "Load completed! -- "+ fragmentData.size());
-        editCalendar = Calendar.getInstance();
-
+        fragmentList = new ArrayList<>();
+        ContentFragment contentFragment;
+        for (int i = 0 ; i <  10 ; i++)
+        {
+            contentFragment = new ContentFragment();
+            contentFragment.setDate(dateList.get(i));
+            fragmentList.add(contentFragment);
+        }
     }
 
     private void initView()
     {
         toolbar = (CnToolbar) findViewById(R.id.toolbar);
-        toolbar.setLeftButtonTexts(initCurrentDate).setOnClickListener(new View.OnClickListener() {
+        toolbar.setLeftButtonTexts(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -104,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),AddActivity.class);
-                intent.putExtra("Date",currentDate);
+                //当前日期是ca，ca的日期时间传过去
+
+                intent.putExtra("Date",Long.parseLong(simpleDateFormat.format(ca.getTime())));
                 Log.d(TAG, "onClick: "+currentDate);
                 startActivity(intent);
             }
@@ -113,16 +118,16 @@ public class MainActivity extends AppCompatActivity {
 
         vp_content = (ViewPager) findViewById(R.id.vp_content);
 
-        list = new ArrayList<ContentFragment>();
-        ca = Calendar.getInstance();
-        cnVPAdapter = new CnVPAdapter(getSupportFragmentManager(), list);
 
-        reloadDataInTwoWay(1);
-
+        cnVPAdapter = new CnVPAdapter(getSupportFragmentManager(), fragmentList);
 
 
         vp_content.setAdapter(cnVPAdapter);
-        vp_content.setCurrentItem(cnVPAdapter.centerPosition ,true);
+        //设置页面到第二项
+        vp_content.setCurrentItem(CnVPAdapter.positionIn3th ,true);
+
+//        CnViewPageAdapter cnViewPageAdapter = new CnViewPageAdapter();
+
         vp_content.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -133,51 +138,86 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                editDate = simpleDateFormat.format(editCalendar.getTime());
-                Log.d(TAG, "onPageSelected: "+ editDate);
-                if (position % 10 == 1)
-                {
-
-                    reloadDataInTwoWay(1);
-                }
-                else if (position % 10 == 3)
-                {
-                    reloadDataInTwoWay(2);
-                }
-                else if (position % 10 == 6)
-                {
-                    reloadDataInTwoWay(3);
-                }
-                else if (position % 10 ==8)
-                {
-                    reloadDataInTwoWay(4);
-                }
-                Log.d(TAG, "onPageSelected: selected is "+position%10);
-                Log.d(TAG, "onPageSelected: lastPosition"+lastPosition +"--- position"+position);
-
-//
-                if (position - lastPosition > 0)
+                Toast.makeText(MainActivity.this, position%10+"", Toast.LENGTH_SHORT).show();
+                if (position > lastPosition)
                 {
                     ca.add(Calendar.DAY_OF_YEAR,1);
-                    editDate = simpleDateFormat.format(ca.getTime());
-                    Log.d(TAG, "onPageSelected: ++"+editDate);
-
                 }
                 else
                 {
                     ca.add(Calendar.DAY_OF_YEAR,-1);
-                    editDate = simpleDateFormat.format(ca.getTime());
-                    Log.d(TAG, "onPageSelected: --"+editDate);
-
                 }
                 lastPosition = position;
+
+//                if (position % 10 == 1)
+//                {
+//
+//                    reloadDataInTwoWay(1);
+//                }
+//                else if (position % 10 == 3)
+//                {
+//                    reloadDataInTwoWay(2);
+//                }
+//                else if (position % 10 == 6)
+//                {
+//                    reloadDataInTwoWay(3);
+//                }
+//                else if (position % 10 ==8)
+//                {
+//                    reloadDataInTwoWay(4);
+//                }
+//                Log.d(TAG, "onPageSelected: selected is "+position%10);
+//                Log.d(TAG, "onPageSelected: lastPosition"+lastPosition +"--- position"+position);
+//
+////
+//                if (position - lastPosition > 0)
+//                {
+//                    ca.add(Calendar.DAY_OF_YEAR,1);
+//                    editDate = simpleDateFormat.format(ca.getTime());
+//                    Log.d(TAG, "onPageSelected: ++"+editDate);
+//
+//                }
+//                else
+//                {
+//                    ca.add(Calendar.DAY_OF_YEAR,-1);
+//                    editDate = simpleDateFormat.format(ca.getTime());
+//                    Log.d(TAG, "onPageSelected: --"+editDate);
+//
+//                }
+//                lastPosition = position;
+
+
+                if (position % 10 == 2)
+                {
+                    dateList = loadDateToFragment(2);
+                    Log.d(TAG, "DataList size "+ dateList.size());
+
+                }
+                else if (position % 10 == 5)
+                {
+                    dateList = loadDateToFragment(5);
+                    Log.d(TAG, "DataList size "+ dateList.size());
+                }
+                else if (position % 10 == 7)
+                {
+                    dateList = loadDateToFragment(7);
+                    Log.d(TAG, "DataList size "+ dateList.size());
+                }
+
+                int index = 0;
+                for (ContentFragment contentFragment : fragmentList)
+                {
+                    Log.d(TAG, "onPageSelected: +fl = "+fragmentList.size()+"--"+dateList.size());
+                    contentFragment.setDate(dateList.get(index ++));
+                }
 
 
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        toolbar.setLeftButtonText(editDate);
+//                        toolbar.setLeftButtonText(editDate);
+                        toolbar.setLeftButtonText(simpleDateFormat.format(ca.getTime()));
                     }
                 });
             }
@@ -189,9 +229,53 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+//        cnVPAdapter.refreshData(list);
+    }
+
+
+    //Fragment
+    public void loadDataInFivePage()
+    {
+        list.clear();
+        ca.add(Calendar.DAY_OF_YEAR,-2);
+        for (int i = 0 ; i < 5; i++)
+        {   contentFragment = new ContentFragment();
+//            contentFragment.setDate(ca.getTime());
+            contentFragment.setData(dataProvider.get(ca.getTime()),null);
+            list.add(contentFragment);
+            ca.add(Calendar.DAY_OF_YEAR,1);
+        }
+        ca.add(Calendar.DAY_OF_YEAR,-1);
+//        Log.d(TAG, "loadDataInFivePage:  + "+ simpleDateFormat.format(ca.getTime()));
+
+    }
+
+    //View
+    public List<View> loadViewInFivePage()
+    {
+        List<View> mList = new ArrayList<>();
+//        ca.add(Calendar.DAY_OF_YEAR,-2);
+        for (int i = 0 ; i< 5; i++)
+        {
+            View view = LayoutInflater.from(this).inflate(R.layout.content_fragment_layout,null);
+//            ca.add(Calendar.DAY_OF_YEAR,1);
+            mList.add(view);
+        }
+//           ca.add(Calendar.DAY_OF_YEAR,-1);
+//           Log.d(TAG, "loadDataInFivePage:  + "+ simpleDateFormat.format(ca.getTime()));
+
+//        List <ConsumeItem> mData = new
+        return mList;
+    }
+
+
     public void reloadDataInTwoWay(int i)
     {
-        Log.d(TAG, "ca - currentDate :" + simpleDateFormat.format(ca.getTime()));
+//        Log.d(TAG, "ca - currentDate :" + simpleDateFormat.format(ca.getTime()));
         //这个ca显示的是 当前的日期20170815，只做数据重载用
         list.clear();
         if (i == 1)
@@ -202,6 +286,9 @@ public class MainActivity extends AppCompatActivity {
             {
                 contentFragment = new ContentFragment();
                 contentFragment.setDate(ca.getTime());
+//                Log.d(TAG, "reloadDataInTwoWay: "+ca.getTime());
+
+                contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
                 list.add(contentFragment);
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
@@ -211,6 +298,8 @@ public class MainActivity extends AppCompatActivity {
             {
                 contentFragment = new ContentFragment();
                 contentFragment.setDate(ca.getTime());
+                contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
+
                 list.add(contentFragment);
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
@@ -222,18 +311,20 @@ public class MainActivity extends AppCompatActivity {
         else if (i == 2)
         {
             //直连式
-            Log.d(TAG, "reload two current date is "+simpleDateFormat.format(ca.getTime()));
+//            Log.d(TAG, "reload two current date is "+simpleDateFormat.format(ca.getTime()));
             ca.add(Calendar.DAY_OF_YEAR,-2);
             for (int d = 0 ; d < 10 ; d++)
             {
                 contentFragment = new ContentFragment();
-                Log.d(TAG, "reloadDataInTwoWay: Add date is "+simpleDateFormat.format(ca.getTime()));
-                contentFragment.setDate(ca.getTime());
+//                Log.d(TAG, "reloadDataInTwoWay: Add date is "+simpleDateFormat.format(ca.getTime()));
+                contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
+
+//                contentFragment.setData(dataProvider.get(ca.getTime().getTime()),null);
                 list.add(contentFragment);
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
             ca.add(Calendar.DAY_OF_YEAR,-8);
-            Log.d(TAG, "reload two over date is "+simpleDateFormat.format(ca.getTime()));
+//            Log.d(TAG, "reload two over date is "+simpleDateFormat.format(ca.getTime()));
         }
         else if (i == 3)
         {
@@ -242,6 +333,9 @@ public class MainActivity extends AppCompatActivity {
             {
                 contentFragment = new ContentFragment();
                 contentFragment.setDate(ca.getTime());
+                contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
+
+//                contentFragment.setData(dataProvider.get(ca.getTime().getTime()),null);
                 list.add(contentFragment);
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
@@ -256,6 +350,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "reload.4 date is "+simpleDateFormat.format(ca.getTime()));
                 contentFragment = new ContentFragment();
                 contentFragment.setDate(ca.getTime());
+                contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
+//                contentFragment.setData(dataProvider.get(ca.getTime().getTime()),null);
                 list.add(contentFragment);
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
@@ -265,6 +361,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "reload.4 date is "+simpleDateFormat.format(ca.getTime()));
                 contentFragment = new ContentFragment();
                 contentFragment.setDate(ca.getTime());
+                contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
+//                contentFragment.setData(dataProvider.get(ca.getTime().getTime()),null);
                 list.add(contentFragment);
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
@@ -275,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
         cnVPAdapter.refreshData(list);
         Log.d(TAG, "After reloading ca's date is "+simpleDateFormat.format(ca.getTime()));
     }
+
     public void reloadData(boolean isSlideToRight)
     {
         list.clear();
@@ -393,4 +492,84 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void reloadData(int direction)
+    {
+        int forward = 1;
+        int back = 2;
+        if (direction == forward )
+        {
+             for(int d =  0 ; d < 5 ; d++)
+             {
+                 contentFragment = new ContentFragment();
+                 contentFragment.setDate(ca.getTime());
+                 contentFragment.setData(dataProvider.get(Long.parseLong(simpleDateFormat.format(ca.getTime()))),null);
+
+                 Log.d(TAG, "reloadDataInTwoWay: "+ca.getTime());
+
+             }
+        }
+    }
+
+    //Date load
+    public List<Date> loadDateToFragment(int indication)
+    {
+        List<Date> mList = new ArrayList<>();
+        mList.clear();
+        if (indication == 2)
+        {
+            ca.add(Calendar.DAY_OF_YEAR,-2);
+            for (int i = 0 ; i < 5 ;i ++)
+            {
+                mList.add(ca.getTime());
+                ca.add(Calendar.DAY_OF_YEAR,1);
+            }
+            ca.add(Calendar.DAY_OF_YEAR,-8);
+            for (int i = 0 ; i < 5; i ++)
+            {
+                mList.add(ca.getTime());
+                ca.add(Calendar.DAY_OF_YEAR,1);
+            }
+//            Log.d(TAG, "loadDateToFragment: type == 1 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(0)==ca.getTime())+"---mList.size = "+mList.size());
+        }
+        else if (indication == 5)
+        {
+            ca.add(Calendar.DAY_OF_YEAR,-5);
+            for (int i = 0 ; i < 10; i ++)
+            {
+                mList.add(ca.getTime());
+                ca.add(Calendar.DAY_OF_YEAR,1);
+            }
+            ca.add(Calendar.DAY_OF_YEAR,-5);
+//            Log.d(TAG, "loadDateToFragment: type == 2 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(2)==ca.getTime()));
+        }
+        else if (indication == 7)
+        {
+            ca.add(Calendar.DAY_OF_YEAR, +3);
+            for (int i = 0 ; i < 5;i ++)
+            {
+                mList.add(ca.getTime());
+                ca.add(Calendar.DAY_OF_YEAR,1);
+            }
+            ca.add(Calendar.DAY_OF_YEAR,-10);
+            for (int i = 0 ; i < 5 ; i ++)
+            {
+                mList.add(ca.getTime());
+                ca.add(Calendar.DAY_OF_YEAR,1);
+            }
+            ca.add(Calendar.DAY_OF_YEAR,-3);
+//            Log.d(TAG, "loadDateToFragment: type == 7 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(6)==ca.getTime()));
+        }
+
+//
+//        for (Date date : mList)
+//        {
+//            Log.d(TAG, "Check date : "+ simpleDateFormat.format(date));
+//        }
+
+
+        return mList;
+
+    }
 }
+
