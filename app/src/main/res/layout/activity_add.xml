@@ -26,11 +26,17 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_chooseItem"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@id/tv_setAmount"></android.support.v7.widget.RecyclerView>
+
         <TextView
             android:id="@+id/tv_setType"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@id/tv_setAmount"
+            android:layout_below="@id/rv_chooseItem"
             android:text="@string/acount" />
 
         <TextView

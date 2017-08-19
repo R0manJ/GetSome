@@ -20,7 +20,7 @@ public class VPItemAdapter extends BaseAdapter<ConsumeItem> {
     }
 
     @Override
-    void convertData(ConsumeItem consumeItem, BaseViewHolder baseViewHolder) {
+    void convertData(ConsumeItem consumeItem, BaseViewHolder baseViewHolder,int position) {
         baseViewHolder.findTextView(R.id.tv_typeName).setText(consumeItem.getConsumeName());
         baseViewHolder.findTextView(R.id.tv_typeAmount).setText(consumeItem.getAmount() + " $ ");
 

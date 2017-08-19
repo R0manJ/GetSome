@@ -6,7 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,9 +22,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rjstudio.getsome.adapter.OptionalItemAdapter;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
+import com.rjstudio.getsome.bean.OptionalItem;
 import com.rjstudio.getsome.widget.CnToolbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -43,6 +50,9 @@ public class AddActivity extends AppCompatActivity {
     private Intent intent;
     private long date;
     private DataProvider dataProvider;
+    private RecyclerView rv_setItem;
+    private RecyclerView rv_optionalItem;
+    private OptionalItemAdapter optionalItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +73,7 @@ public class AddActivity extends AppCompatActivity {
         date = intent.getLongExtra("Date",0);
 //        Log.d(TAG,"long:"+Long.parseLong(currentDate));
         dataProvider = new DataProvider(this,date);
-        //取到当前日期用于保存道sp中的当天消费记录,这里是新建项目，则修改List<ConsumeItem>里面即可；
-        //传入一个日期 -> 如有这个日期有对应的消费数据集合 ，则抽取里面的list进行修改 -> 如果没有则新建一个list
-        //当前步骤，已近新建了一个list集合了，现在测试存放数据
-        //新建一个ConsumeItem
-//        ConsumeItem consumeItem = new ConsumeItem();
-//        consumeItem.setAmount(0.24f);
-//        consumeItem.setConsumeName("Dinner");
-//        consumeItem.setDate(Long.parseLong(currentDate));
-//        consumeItem.setTypeIcon(1);
-//        dataProvider.put(consumeItem);
-        //到这一步，将存放了一个数据
-        //写入数据没有问题，已经测试完成
+
 
     }
     private void initView()
@@ -132,6 +131,8 @@ public class AddActivity extends AppCompatActivity {
             }
         });
         initRemarkSetLayout();
+        initOptionalItemLayout();
+
 
     }
     private EditText initRemarkSetLayout()
@@ -144,19 +145,27 @@ public class AddActivity extends AppCompatActivity {
         return et_remark;
     }
 
+    private void initOptionalItemLayout()
+    {
+        //Test data
+        List<OptionalItem> optionalItemList = new ArrayList<>();
+        for (int i = 0 ; i < 20; i++)
+        {
+            OptionalItem optionalItem = new OptionalItem();
+            optionalItem.setImageId(R.drawable.ic_launcher_round);
+            optionalItem.setTextId(R.string.add);
+            optionalItemList.add(optionalItem);
+        }
+
+        rv_optionalItem = (RecyclerView) findViewById(R.id.rv_chooseItem);
+        optionalItemAdapter = new OptionalItemAdapter(this,optionalItemList, R.layout.item_layout_2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false);
+        gridLayoutManager.canScrollHorizontally();
+        rv_optionalItem.setAdapter(optionalItemAdapter);
+        rv_optionalItem.setLayoutManager(gridLayoutManager);
+    }
 
     String TAG = "TEST";
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
 
 
 

@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.rjstudio.getsome.adapter.CnVPAdapter;
-import com.rjstudio.getsome.adapter.CnViewPageAdapter;
 import com.rjstudio.getsome.bean.Consume;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
@@ -22,7 +21,6 @@ import com.rjstudio.getsome.utility.JSONUtil;
 import com.rjstudio.getsome.utility.PreferencesUtils;
 import com.rjstudio.getsome.widget.CnToolbar;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

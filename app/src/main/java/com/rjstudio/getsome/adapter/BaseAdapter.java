@@ -38,11 +38,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         T t = mList.get(position);
-        convertData(t,holder);
+        convertData(t,holder,position);
     }
 
-    abstract void convertData(T t,BaseViewHolder baseViewHolder);
-
+    abstract void convertData(T t,BaseViewHolder baseViewHolder,int position);
 
 
 }
