@@ -53,16 +53,16 @@ public class ContentFragment extends Fragment {
 
     public void setData(List<ConsumeItem> list,Handler handler)
     {
-        Log.d(TAG, "setData: +"+list.size()+"---+m");
+//        Log.d(TAG, "setData: +"+list.size()+"---+m");
         if (list != null)
         {
 //            Log.d(TAG, "setData: not null ");
-            Log.d(TAG, "setData: +"+list.size()+"---+m");
+//            Log.d(TAG, "setData: +"+list.size()+"---+m");
             mList.addAll(list);
         }
         else 
         {
-            Log.d(TAG, "setData: null");
+//            Log.d(TAG, "setData: null");
         }
 
         //test Data

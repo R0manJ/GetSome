@@ -1,6 +1,8 @@
 <RelativeLayout
+    android:paddingTop="0dp"
+    android:background="@color/sienna"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
@@ -19,7 +21,7 @@
         android:background="@null"
         android:layout_toRightOf="@id/bu_left"
         android:id="@+id/bu_middle"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="70dp"
         android:drawableLeft="@mipmap/ic_launcher_round"/>
 
     <Button
@@ -29,6 +31,6 @@
         android:drawableLeft="@mipmap/ic_launcher_round"
         android:layout_toRightOf="@id/bu_middle"
         android:id="@+id/bu_right"
-        android:layout_marginLeft="40dp"/>
+        android:layout_marginLeft="30dp"/>
 
 </RelativeLayout>

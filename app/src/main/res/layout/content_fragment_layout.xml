@@ -4,8 +4,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <LinearLayout
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -13,7 +12,9 @@
         >
 
         <TextView
-            android:background="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@color/BurlyWood"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -22,17 +23,21 @@
             android:id="@+id/tv_currencyType"/>
 
         <TextView
-            android:background="@color/colorAccent"
+            android:paddingRight="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@color/BurlyWood"
             android:id="@+id/tv_amount"
-            android:gravity="center"
+            android:gravity="right|center"
             android:text="@string/test"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"

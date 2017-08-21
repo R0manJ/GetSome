@@ -10,6 +10,7 @@
     <string name="remark">Remark</string>
     <string name="save">Save</string>
 
+    <string name="delete">Delete</string>
     <!--MainOptionalItem-->
     <string name="expenditure">Expenditure</string>
     <string name="income">Income</string>

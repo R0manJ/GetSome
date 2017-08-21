@@ -10,4 +10,14 @@
     <color name="DeepSkyBlue">#00BFFF</color>
     <color name="olivedrab1">#C0FF3E</color>
     <color name="lightyellow">#FFFFE0</color>
+
+    <color name="Black">#000</color>
+
+    <color name="Tomato">#ff6347</color>
+    <color name="Peru">#cd853f</color>
+    <color name="Tan">#d2b48c</color>
+    <color name="SaddleBrow">#8b4513</color>
+    <color name="sienna">#a0522d</color>
+    <color name="BurlyWood">#cd853f</color>
+    <color name="SandyBorwn">#f4a460</color>
 </resources>
