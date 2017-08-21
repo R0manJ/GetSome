@@ -1,15 +1,26 @@
 package com.rjstudio.getsome.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by r0man on 2017/8/11.
  */
 
-public class ConsumeItem {
+public class ConsumeItem implements Serializable{
     int ConsumeType;
     int TypeIcon;
     String ConsumeName;
-    float Amount;
+    double Amount;
     long date;
+    String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public long getDate() {
         return date;
@@ -43,11 +54,11 @@ public class ConsumeItem {
         ConsumeName = consumeName;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return Amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         Amount = amount;
     }
 }

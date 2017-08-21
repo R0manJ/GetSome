@@ -11,9 +11,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -44,6 +42,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
 
     };
+
     private Handler handlerCalculateLogic = new Handler()
     {
         @Override
@@ -56,7 +55,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             }
         }
     };
-    private View contentView;
+//    private View contentView;
     private View calculateLayout;
     private PopupWindow cMWindows;
     private Context context;
@@ -70,6 +69,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private TextView tv_amount;
     private double tempSava;
     private int optionKey;
+
+    //Keyboard args
+    private double number = 0;
+    private boolean isDecimal = false;
+    private double decimalPart= 0f;
+    private int decimalBit = 1;
+    private int integerBit = 1;
+
+
+    private ConsumeItem consumeItem;
+    private List<OptionalItem> optionalItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +97,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     {
         context = this;
         intent = getIntent();
+
+
         date = intent.getLongExtra("Date",0);
 //        Log.d(TAG,"long:"+Long.parseLong(currentDate));
         dataProvider = new DataProvider(this,date);
-
+        consumeItem = new ConsumeItem();
 
     }
     private void initView()
@@ -110,14 +122,18 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onClick(View v) {
                         //TODO : consmueItem set;
-                        ConsumeItem consumeItem = new ConsumeItem();
-                        consumeItem.setConsumeName("xxx"+"");
-                        consumeItem.setTypeIcon(1);
-                        consumeItem.setAmount(22.77f);
-                        consumeItem.setConsumeType(1);
-                        consumeItem.setDate(date);
-                        dataProvider.put(consumeItem);
-                        finish();
+                        if (setConsumeItemToDataProvider())
+                        {
+                            finish();
+                        }
+//                        ConsumeItem consumeItem = new ConsumeItem();
+//                        consumeItem.setConsumeName("xxx"+"");
+//                        consumeItem.setTypeIcon(1);
+//                        consumeItem.setAmount(22.77f);
+//                        consumeItem.setConsumeType(1);
+//                        consumeItem.setDate(date);
+//                        dataProvider.put(consumeItem);
+//                        finish();
                     }
                 });
         //TODO : getApplication & this ?
@@ -126,6 +142,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         cMWindows.setTouchable(true);
         cMWindows.setOutsideTouchable(true);
         tv_amount = (TextView) findViewById(R.id.tv_setAmount);
+        tv_amount.setText("0.0");
         tv_amount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,13 +157,28 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Remark", Toast.LENGTH_SHORT).show();
-                TextView tv_newSetRemark = initRemarkSetLayout();
-                PopupWindow popupWindow = new PopupWindow(tv_newSetRemark, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
+                final EditText et_newSetRemark = initRemarkSetLayout();
+                PopupWindow popupWindow = new PopupWindow(et_newSetRemark, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
                 popupWindow.setTouchable(true);
                 popupWindow.setOutsideTouchable(false);
                 popupWindow.showAsDropDown(v);
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        tv_setRemark.setText(et_newSetRemark.getText());
+                    }
+                });
             }
         });
+
+        if (!intent.getBooleanExtra("isNewItem",true))
+        {
+            ConsumeItem consumeItem = (ConsumeItem) intent.getSerializableExtra("ConsumeItem");
+            number = consumeItem.getAmount();
+            tv_amount.setText(number+"  $");
+            //TODO : Type
+        }
+
         initRemarkSetLayout();
         initOptionalItemLayout();
         keyboardLogic();
@@ -157,7 +189,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         EditText et_remark = new EditText(this);
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(800,800);
         et_remark.setLayoutParams(layoutParams);
-        et_remark.setText("xxx");
+//        et_remark.setText("null");
         Log.d(TAG, "initRemarkSetLayout: "+et_remark.getText());
         return et_remark;
     }
@@ -165,7 +197,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private void initOptionalItemLayout()
     {
         //Test data
-        List<OptionalItem> optionalItemList = new ArrayList<>();
+        optionalItemList = new ArrayList<>();
         for (int i = 0 ; i < 20; i++)
         {
             OptionalItem optionalItem = new OptionalItem();
@@ -175,7 +207,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         rv_optionalItem = (RecyclerView) findViewById(R.id.rv_chooseItem);
-        optionalItemAdapter = new OptionalItemAdapter(this,optionalItemList, R.layout.item_layout_2);
+        optionalItemAdapter = new OptionalItemAdapter(this, optionalItemList, R.layout.item_layout_2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false);
         gridLayoutManager.canScrollHorizontally();
         rv_optionalItem.setAdapter(optionalItemAdapter);
@@ -225,11 +257,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         bu_mul.setOnClickListener(this);
     }
 
-    int bit = 1;
-    double number = 0;
-    int key = 0;
-//    number = number + key *10;
-    //1000,100,10,1,0.1,0.01
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -239,7 +267,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.bu_1:
                 calculateLogic(1);
-                Toast.makeText(context, "Onclick + 1", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Onclick + 1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.bu_2:
                 calculateLogic(2);
@@ -270,7 +298,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 calculateLogic(-1);
                 break;
             case R.id.bu_dop:
-                Toast.makeText(context, "dop", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "dop", Toast.LENGTH_SHORT).show();
                 calculateLogic(-2);
                 break;
             case R.id.bu_del:
@@ -294,10 +322,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private boolean isDecimal = false;
-    private double decimalPart= 0f;
-    private int decimalBit = 1;
-    private int integerBit = 1;
+
     public void calculateLogic(int key)
     {
         if (key == -2)
@@ -323,7 +348,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             }
             else
             {
-                Log.d(TAG, "calculateLogic: decimalBit = "+decimalBit);
+//                Log.d(TAG, "calculateLogic: decimalBit = "+decimalBit);
                 int bit10 = 10;
                 for (int i = 1 ; i < (decimalBit-1) ; i ++)
                 {
@@ -410,7 +435,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             switch (optionKey)
             {
                 case 4:
-                    Log.d(TAG, "calculateLogic: add = "+number+"--"+tempSava);
+//                    Log.d(TAG, "calculateLogic: add = "+number+"--"+tempSava);
                     number = BigDecimal.valueOf(tempSava).add(BigDecimal.valueOf(number)).doubleValue();
                     break;
                 case 5:
@@ -465,11 +490,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             {
 
                 int bit10 = 10;
-                Log.d(TAG, "calculateLogic: bit :"+decimalBit);
+//                Log.d(TAG, "calculateLogic: bit :"+decimalBit);
                 for (int i = 1 ; i < decimalBit ;i++)
                 {
                     bit10 *= 10;
-                    Log.d(TAG, "calculateLogic: bit = "+bit10);
+//                    Log.d(TAG, "calculateLogic: bit = "+bit10);
                 }
                 beforeChangeToDecimal = (int) (number * bit10)/bit10;
 //                Log.d(TAG, "calculateLogic: beforeChangeToDEcimal (1)+"+beforeChangeToDecimal);
@@ -478,9 +503,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 decimalPart = (double)(beforeChangeToDecimal % bit10) / bit10;
 //                Log.d(TAG, "calculateLogic: bigDecimal:"+bigDecimal);
 //                Log.d(TAG, "calculateLogic: beforeChangeToDEcimal (3)+"+decimalPart);
-                Log.d(TAG, "calculateLogic: "+BigDecimal.valueOf(decimalPart).doubleValue());
+//                Log.d(TAG, "calculateLogic: "+BigDecimal.valueOf(decimalPart).doubleValue());
                 number = BigDecimal.valueOf(decimalPart).add(BigDecimal.valueOf(number)).doubleValue();
-                Log.d(TAG, "calculateLogic: number "+number);
+//                Log.d(TAG, "calculateLogic: number "+number);
                 decimalBit ++;
             }
 
@@ -490,5 +515,37 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         msg.obj = number;
         handlerCalculateLogic.sendMessage(msg);
 //        bit ++;
+    }
+
+    private boolean setConsumeItemToDataProvider()
+    {
+        if (!tv_amount.getText().equals("0.0"))
+        {
+
+            consumeItem.setAmount(Double.valueOf(number));
+
+        }
+        else
+        {
+            Toast.makeText(context, "请输入金额", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (optionalItemAdapter.getItemNumber() > optionalItemList.size())
+        {
+
+            Toast.makeText(context, "请选择项目", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else
+        {
+            consumeItem.setConsumeType(optionalItemAdapter.getItemNumber());
+        }
+
+        consumeItem.setRemark(tv_setRemark.getText()+"");
+        consumeItem.setDate(date);
+        dataProvider.put(consumeItem);
+        return true;
+
     }
 }

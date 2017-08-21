@@ -1,20 +1,22 @@
 package com.rjstudio.getsome.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rjstudio.getsome.ItemDetail;
 import com.rjstudio.getsome.R;
 import com.rjstudio.getsome.adapter.VPItemAdapter;
 import com.rjstudio.getsome.bean.ConsumeItem;
@@ -123,10 +125,16 @@ public class ContentFragment extends Fragment {
     {
 //        Log.d(TAG, "initRecyclerView: list size "+mList.size());
         vpItemAdapter = new VPItemAdapter(getContext(),mList, R.layout.item_layout_1);
-//        for (ConsumeItem c : mList)
-//        {
-//            Log.d(TAG, c.getDate()+"----"+"initRecyclerView: "+c.getConsumeName());
-//        }
+
+        vpItemAdapter.setOnItemClickListener(new VPItemAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View v, int position,ConsumeItem consumeItem) {
+                Intent intent = new Intent(getContext(), ItemDetail.class);
+                intent.putExtra("isNewItem",true);
+                intent.putExtra("ConsumeItem",consumeItem);
+                startActivity(intent);
+            }
+        });
         rc_content.setAdapter(vpItemAdapter);
         rc_content.setLayoutManager(new LinearLayoutManager(getContext()));
         //Adapter

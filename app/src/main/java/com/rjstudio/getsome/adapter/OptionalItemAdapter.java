@@ -19,6 +19,8 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
     private final List<OptionalItem> mList;
     private int recordPosition = 0;
 
+    private int itemNumber = Integer.MAX_VALUE;
+
     public OptionalItemAdapter(Context context, List<OptionalItem> list, int layoutId) {
         super(context, list, layoutId);
         mContext = context;
@@ -44,6 +46,7 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
             public void onClick(View v) {
 
 
+                itemNumber = position;
                 notifyItemChanged(recordPosition);
                 if (!optionalItem.isSelected())
                 {
@@ -85,5 +88,15 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
     private void refreshSelected()
     {
         //notifyItemRangeChanged(0,mList.size());
+    }
+
+    public int getItemNumber()
+    {
+        return itemNumber;
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
     }
 }

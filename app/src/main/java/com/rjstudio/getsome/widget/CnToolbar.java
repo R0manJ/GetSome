@@ -94,9 +94,11 @@ public class CnToolbar extends Toolbar {
     }
 
 
-    public void hideMiddleButton()
+    public CnToolbar hideMiddleButton()
     {
         bu_middle.setVisibility(INVISIBLE);
+        //TODO : new Instance
+        return null;
     }
     public void showMiddleButton()
     {

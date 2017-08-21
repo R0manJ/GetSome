@@ -4,18 +4,24 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.rjstudio.getsome.adapter.CnVPAdapter;
+import com.rjstudio.getsome.adapter.MainOptionItemAdapter;
 import com.rjstudio.getsome.bean.Consume;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
 import com.rjstudio.getsome.bean.DateReocord;
+import com.rjstudio.getsome.bean.MainOptionalItem;
 import com.rjstudio.getsome.fragment.ContentFragment;
 import com.rjstudio.getsome.utility.JSONUtil;
 import com.rjstudio.getsome.utility.PreferencesUtils;
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private ContentFragment contentFragment;
     private List<Date> dateList;
     private List<ContentFragment> fragmentList;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +97,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private List<MainOptionalItem> initOptionalItem()
+    {
+        MainOptionalItem mainOptionalItem;
+        List<MainOptionalItem> mList = new ArrayList<>();
+
+        mainOptionalItem = new MainOptionalItem();
+        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setTextId(R.string.expenditure);
+        mList.add(mainOptionalItem);
+
+        mainOptionalItem = new MainOptionalItem();
+        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setTextId(R.string.income);
+        mList.add(mainOptionalItem);
+
+        mainOptionalItem = new MainOptionalItem();
+        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setTextId(R.string.statistics);
+        mList.add(mainOptionalItem);
+
+        mainOptionalItem = new MainOptionalItem();
+        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setTextId(R.string.setting);
+        mList.add(mainOptionalItem);
+        Log.d(TAG, "initOptionalItem: list size "+mList.size());
+        return mList;
+    }
+
     private void initView()
     {
+        drawerLayout = (DrawerLayout) findViewById(R.id.dl_main);
         toolbar = (CnToolbar) findViewById(R.id.toolbar);
         toolbar.setLeftButtonTexts(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +136,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        toolbar.getLeftButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.START);
+            }
+        });
         toolbar.getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,6 +266,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        //OptionMenu
+        MainOptionItemAdapter mainOptionItemAdapter = new MainOptionItemAdapter(this,initOptionalItem());
+        RecyclerView rv_OptionalMenu = (RecyclerView) findViewById(R.id.rv_chooseItem);
+        rv_OptionalMenu.setAdapter(mainOptionItemAdapter);
+        rv_OptionalMenu.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
