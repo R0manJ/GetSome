@@ -17,4 +17,9 @@
     <string name="statistics">Statistics</string>
     <string name="setting">Setting</string>
 
+    <string name="Warning">WARNING</string>
+    <string name="isDelete">Do you want to delete this item?</string>
+    <string name="confirm">Ok</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

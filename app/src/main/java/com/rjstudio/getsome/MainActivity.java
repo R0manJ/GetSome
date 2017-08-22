@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         cnButtomBar.refreshAmount(ca);
 //        Log.d(TAG, "onResume: ");
-
+//        cnVPAdapter.notifyDataSetChanged();
 //        cnVPAdapter.refreshData(list);
     }
 

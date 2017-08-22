@@ -95,6 +95,7 @@ public class DataProvider {
             //json -> list
             dateReocords = JSONUtil.fromJson(json,new TypeToken<List<DateReocord>>(){}.getType());
         }
+
         return dateReocords;
     }
 
@@ -119,9 +120,12 @@ public class DataProvider {
         commit();
     }
     //删除数据
-    private void deleteConsumeItem(ConsumeItem consumeItem)
+    public void deleteConsumeItem(int index)
     {
-        consumeItemList.remove(consumeItem);
+        Log.d(TAG, "deleteConsumeItem: list size"+consumeItemList.size());
+//        consumeItemList.remove(consumeItem);
+        consumeItemList.remove(index);
+        Log.d(TAG, "deleteConsumeItem: list size change "+consumeItemList.size());
         commit();
     }
     //修改数据
@@ -135,7 +139,7 @@ public class DataProvider {
     private void commit()
     {
         PreferencesUtils.putString(mContext,date+"",JSONUtil.toJson(consumeItemList));
-        Log.d("TEST",date+"的数据已被修改");
+        Log.d("TEST",date+"的数据已被修改"+JSONUtil.toJson(consumeItemList));
     }
 
     public void put(ConsumeItem consumeItem)
@@ -185,4 +189,6 @@ public class DataProvider {
         }
         return list;
     }
+
+
 }

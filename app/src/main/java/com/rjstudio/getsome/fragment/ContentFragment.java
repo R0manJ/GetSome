@@ -3,7 +3,6 @@ package com.rjstudio.getsome.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +19,7 @@ import com.rjstudio.getsome.R;
 import com.rjstudio.getsome.adapter.VPItemAdapter;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
+import com.rjstudio.getsome.other.CnLinearLayoutManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -109,7 +108,7 @@ public class ContentFragment extends Fragment {
         tv_totalAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: "+getDate());
+//                Log.d(TAG, "onClick: "+getDate());
                 Toast.makeText(getContext(), getDate()+"", Toast.LENGTH_SHORT).show();
             }
         });
@@ -131,12 +130,13 @@ public class ContentFragment extends Fragment {
             public void onClick(View v, int position,ConsumeItem consumeItem) {
                 Intent intent = new Intent(getContext(), ItemDetail.class);
                 intent.putExtra("isNewItem",true);
+                intent.putExtra("index",position);
                 intent.putExtra("ConsumeItem",consumeItem);
                 startActivity(intent);
             }
         });
         rc_content.setAdapter(vpItemAdapter);
-        rc_content.setLayoutManager(new LinearLayoutManager(getContext()));
+        rc_content.setLayoutManager(new CnLinearLayoutManager(getContext()));
         //Adapter
 
         //setAdapter
@@ -147,6 +147,7 @@ public class ContentFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        Log.d(TAG, "onResume: Fragment --- "+mList.size());
+        Log.d(TAG, "onResume: list.size = "+dataProvider.get(date).size());
         vpItemAdapter.refreshData(dataProvider.get(date));
         vpItemAdapter.notifyItemRangeChanged(0,mList.size());
 
