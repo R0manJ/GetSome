@@ -3,6 +3,7 @@ package com.rjstudio.getsome.adapter;
 import android.content.Context;
 import android.view.View;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.rjstudio.getsome.R;
 import com.rjstudio.getsome.bean.OptionalItem;
 
@@ -30,6 +31,10 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
     @Override
     void convertData(final OptionalItem optionalItem, BaseViewHolder baseViewHolder, final int position) {
 //        baseViewHolder.findView(R.id.iv_item).setBackground(mContext.getDrawable(R.drawable.ic_launcher_round));
+
+
+        SimpleDraweeView simpleDraweeView = (SimpleDraweeView) baseViewHolder.findView(R.id.iv_item);
+        simpleDraweeView.setImageURI("res:///"+optionalItem.getImageId());
         baseViewHolder.findTextView(R.id.tv_item).setText(optionalItem.getTextId());
 
         if (optionalItem.isSelected())

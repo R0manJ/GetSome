@@ -6,14 +6,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <Button
+    <LinearLayout
         android:padding="10dp"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:background="@null"
-        android:id="@+id/bu_left"
-        android:drawableLeft="@mipmap/ic_launcher_round"
-        android:text="@string/test"/>
+        android:orientation="horizontal"
+        android:id="@+id/bu_left">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_leftIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_left"
+            android:text="@string/test"/>
+    </LinearLayout>
+
 
     <Button
         android:layout_width="50dp"
@@ -27,8 +38,7 @@
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@null"
-        android:drawableLeft="@mipmap/ic_launcher_round"
+        android:background="@drawable/edit"
         android:layout_toRightOf="@id/bu_middle"
         android:id="@+id/bu_right"
         android:layout_marginLeft="30dp"/>

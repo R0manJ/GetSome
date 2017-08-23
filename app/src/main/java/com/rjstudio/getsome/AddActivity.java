@@ -161,7 +161,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 PopupWindow popupWindow = new PopupWindow(et_newSetRemark, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
                 popupWindow.setTouchable(true);
                 popupWindow.setOutsideTouchable(false);
-                popupWindow.showAsDropDown(v);
+                popupWindow.showAsDropDown(tv_amount);
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
@@ -187,6 +187,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private EditText initRemarkSetLayout()
     {
         EditText et_remark = new EditText(this);
+//        et_remark.setBackgroundColor(getResources().getColor(R.color.BurlyWood));
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(800,800);
         et_remark.setLayoutParams(layoutParams);
 //        et_remark.setText("null");
@@ -198,13 +199,32 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     {
         //Test data
         optionalItemList = new ArrayList<>();
-        for (int i = 0 ; i < 20; i++)
-        {
-            OptionalItem optionalItem = new OptionalItem();
-            optionalItem.setImageId(R.drawable.ic_launcher_round);
-            optionalItem.setTextId(R.string.add);
-            optionalItemList.add(optionalItem);
-        }
+        OptionalItem optionalItem = new OptionalItem();
+        optionalItem.setImageId(R.drawable.breakfast);
+        optionalItem.setTextId(R.string.breakfast);
+        optionalItemList.add(optionalItem);
+
+        optionalItem = new OptionalItem();
+        optionalItem.setImageId(R.drawable.lunch);
+        optionalItem.setTextId(R.string.lunch);
+        optionalItemList.add(optionalItem);
+
+        optionalItem = new OptionalItem();
+        optionalItem.setImageId(R.drawable.dinner);
+        optionalItem.setTextId(R.string.dinner);
+        optionalItemList.add(optionalItem);
+
+        optionalItem = new OptionalItem();
+        optionalItem.setImageId(R.drawable.shopping);
+        optionalItem.setTextId(R.string.shopping);
+        optionalItemList.add(optionalItem);
+
+        optionalItem = new OptionalItem();
+        optionalItem.setImageId(R.drawable.other);
+        optionalItem.setTextId(R.string.other);
+        optionalItemList.add(optionalItem);
+
+
 
         rv_optionalItem = (RecyclerView) findViewById(R.id.rv_chooseItem);
         optionalItemAdapter = new OptionalItemAdapter(this, optionalItemList, R.layout.item_layout_2);

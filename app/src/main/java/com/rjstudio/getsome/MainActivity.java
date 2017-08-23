@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     {
         drawerLayout = (DrawerLayout) findViewById(R.id.dl_main);
         toolbar = (CnToolbar) findViewById(R.id.toolbar);
+        toolbar.getLeftButton().setBackground(getDrawable(R.drawable.menu));
         toolbar.setLeftButtonTexts(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(Gravity.START);
             }
         });
+        toolbar.getRightButton().setBackground(getDrawable(R.drawable.edit));
         toolbar.getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

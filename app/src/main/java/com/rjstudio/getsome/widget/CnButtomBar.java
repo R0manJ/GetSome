@@ -68,6 +68,7 @@ public class CnButtomBar extends RelativeLayout {
     private void initView()
     {
         View view = LayoutInflater.from(mContext).inflate(R.layout.cn_buttombar,this);
+
         tv_expenditure = (TextView) view.findViewById(R.id.tv_surplus);
         tv_budget = (TextView) view.findViewById(R.id.tv_budget);
         tv_expenditure.setText("xxxx");

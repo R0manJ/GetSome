@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.rjstudio.getsome.R;
 
 /**
@@ -22,9 +25,10 @@ public class CnToolbar extends Toolbar {
     private LayoutInflater mInflater;
     private View mView;
 
-    private Button bu_left;
     private Button bu_middle;
     private Button bu_right;
+    private LinearLayout bu_left;
+    private TextView tv_left;
 
     public CnToolbar(Context context) {
         this(context,null);
@@ -63,7 +67,10 @@ public class CnToolbar extends Toolbar {
             mInflater = LayoutInflater.from(getContext());
             mView = mInflater.inflate(R.layout.cn_toolbar_layout,null);
 
-            bu_left = (Button) mView.findViewById(R.id.bu_left);
+            bu_left = (LinearLayout) mView.findViewById(R.id.bu_left);
+            SimpleDraweeView sv_left = (SimpleDraweeView) mView.findViewById(R.id.iv_leftIcon);
+            tv_left = (TextView) mView.findViewById(R.id.tv_left);
+            sv_left.setImageURI("res:///"+R.drawable.menu);
             bu_middle = (Button) mView.findViewById(R.id.bu_middle);
             bu_right = (Button) mView.findViewById(R.id.bu_right);
 
@@ -74,21 +81,23 @@ public class CnToolbar extends Toolbar {
 
     public void setLeftButtonToBack()
     {
-        bu_left.setBackground(null);
-        bu_left.setText(getContext().getResources().getString(R.string.back));
+        tv_left.setText(getContext().getResources().getString(R.string.back));
+//        bu_left.setBackground(null);
+//        bu_left.setText(getContext().getResources().getString(R.string.back));
     }
     public void setLeftButtonText(String text)
     {
 //        bu_left.setBackground();
-        bu_left.setText(text);
+//        bu_left.setText(text);
+        tv_left.setText(text);
     }
-    public Button setLeftButtonTexts(String text)
+    public LinearLayout setLeftButtonTexts(String text)
     {
         setLeftButtonText(text);
         return bu_left;
     }
 
-    public Button getLeftButton()
+    public LinearLayout getLeftButton()
     {
         return bu_left;
     }

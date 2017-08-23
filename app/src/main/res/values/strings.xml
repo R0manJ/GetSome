@@ -3,10 +3,8 @@
     <string name="test">Test</string>
     <string name="back">BACK</string>
     <string name="add">ADD</string>
-    <string name="breakfast">BREAKFAST</string>
-    <string name="lunch">LUNCH</string>
-    <string name="dinner">DINNER</string>
-    <string name="acount">Account</string>
+
+    <string name="account">Account</string>
     <string name="remark">Remark</string>
     <string name="save">Save</string>
 
@@ -22,4 +20,12 @@
     <string name="confirm">Ok</string>
     <string name="cancel">Cancel</string>
 
+    <string name="menu">Menu</string>
+    <string name="edit">Edit</string>
+    <!--Select items-->
+    <string name="breakfast">BREAKFAST</string>
+    <string name="lunch">LUNCH</string>
+    <string name="dinner">DINNER</string>
+    <string name="shopping">SHOPPING</string>
+    <string name="other">OTHER</string>
 </resources>
