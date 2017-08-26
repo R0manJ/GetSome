@@ -107,22 +107,22 @@ public class MainActivity extends AppCompatActivity {
         List<MainOptionalItem> mList = new ArrayList<>();
 
         mainOptionalItem = new MainOptionalItem();
-        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setImageId(R.drawable.expenditure);
         mainOptionalItem.setTextId(R.string.expenditure);
         mList.add(mainOptionalItem);
 
         mainOptionalItem = new MainOptionalItem();
-        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setImageId(R.drawable.income);
         mainOptionalItem.setTextId(R.string.income);
         mList.add(mainOptionalItem);
 
         mainOptionalItem = new MainOptionalItem();
-        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setImageId(R.drawable.statistic);
         mainOptionalItem.setTextId(R.string.statistics);
         mList.add(mainOptionalItem);
 
         mainOptionalItem = new MainOptionalItem();
-        mainOptionalItem.setImageId(0);
+        mainOptionalItem.setImageId(R.drawable.setting);
         mainOptionalItem.setTextId(R.string.setting);
         mList.add(mainOptionalItem);
         Log.d(TAG, "initOptionalItem: list size "+mList.size());
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.dl_main);
         toolbar = (CnToolbar) findViewById(R.id.toolbar);
 //        toolbar.getLeftButton().setBackground(getDrawable(R.drawable.menu));
-        toolbar.setLeftButtonTexts(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
+        toolbar.setLeftButtonToMenu(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

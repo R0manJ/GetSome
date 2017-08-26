@@ -1,4 +1,5 @@
-<RelativeLayout android:paddingTop="0dp"
+<RelativeLayout
+    android:paddingTop="0dp"
     android:background="@color/ahorroBlack"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,9 +14,10 @@
         android:id="@+id/bu_left">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_leftIcon"
+            android:layout_gravity="center"
             fresco:failureImageScaleType="fitCenter"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
         <TextView
             android:textSize="19sp"
@@ -28,20 +30,22 @@
 
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/calendar"
         android:layout_toRightOf="@id/bu_left"
         android:id="@+id/bu_middle"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="90dp"
    />
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_alignBottom="@id/bu_middle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/edit"
         android:layout_toRightOf="@id/bu_middle"
         android:id="@+id/bu_right"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginLeft="40dp"/>
 
 </RelativeLayout>

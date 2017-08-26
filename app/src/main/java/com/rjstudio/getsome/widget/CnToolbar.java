@@ -127,15 +127,17 @@ public class CnToolbar extends Toolbar {
         return bu_right;
     }
 
-    public LinearLayout setLeftButtonToMenu()
+    public LinearLayout setLeftButtonToMenu(String date)
     {
-        sv_left.setImageURI("file:///"+R.drawable.menu);
+        sv_left.setImageURI("res:///"+R.drawable.menu);
+        tv_left.setText(date);
         return bu_left;
     }
 
     public LinearLayout setLeftButtonToBack()
     {
-        sv_left.setImageURI("file:///"+R.drawable.back);
+        sv_left.setImageURI("res:///"+R.drawable.back);
+        tv_left.setText(getContext().getResources().getString(R.string.back));
         return bu_left;
     }
 

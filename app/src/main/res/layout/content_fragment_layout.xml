@@ -13,9 +13,8 @@
         >
 
         <TextView
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:background="@color/BurlyWood"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -25,9 +24,8 @@
 
         <TextView
             android:paddingRight="20dp"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:background="@color/BurlyWood"
             android:id="@+id/tv_amount"
             android:gravity="right|center"
             android:text="@string/test"

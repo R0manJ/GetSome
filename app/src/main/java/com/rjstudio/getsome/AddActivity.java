@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,6 +82,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     private ConsumeItem consumeItem;
     private List<OptionalItem> optionalItemList;
+    private LinearLayout ll_setRemark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     {
         //ToolBar
         CnToolbar cnToolbar = (CnToolbar) findViewById(R.id.toolbar);
-        cnToolbar.setLeftButtonTexts(getResources().getString(R.string.back))
+        cnToolbar.setLeftButtonToBack()
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -148,8 +150,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         tv_setRemark = (TextView) findViewById(R.id.tv_setRemark);
+        ll_setRemark = (LinearLayout) findViewById(R.id.ll_remark);
 
-        tv_setRemark.setOnClickListener(new View.OnClickListener() {
+        ll_setRemark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Remark", Toast.LENGTH_SHORT).show();
@@ -184,10 +187,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     {
         EditText et_remark = new EditText(this);
 //        et_remark.setBackgroundColor(getResources().getColor(R.color.BurlyWood));
-        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(800,800);
+        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(500,500);
+        et_remark.setBackgroundColor(getResources().getColor(R.color.ahorroWhite2));
         et_remark.setLayoutParams(layoutParams);
+        et_remark.setTextColor(getResources().getColor(R.color.ahorroBlack));
 //        et_remark.setText("null");
-        Log.d(TAG, "initRemarkSetLayout: "+et_remark.getText());
+//        Log.d(TAG, "initRemarkSetLayout: "+et_remark.getText());
         return et_remark;
     }
 

@@ -15,4 +15,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/Black</item>
     </style>
+
+    <style name="calculateButton">
+        <item name="android:background">@color/ahorroWhite</item>
+        <item name="android:textColor">@color/Black</item>
+    </style>
 </resources>

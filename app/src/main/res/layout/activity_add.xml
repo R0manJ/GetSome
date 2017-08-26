@@ -22,7 +22,7 @@
             android:id="@+id/tv_setAmount"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="@color/BurlyWood"
+            android:background="@color/Tan"
             android:gravity="center"
             android:text="@string/test"
             android:textSize="40sp"
@@ -36,6 +36,9 @@
             android:layout_height="180dp"
             android:layout_below="@id/tv_setAmount"/>
 
+
+
+
         <TextView
             style="@style/consumeItemStyle"
             android:id="@+id/tv_setType"
@@ -44,18 +47,36 @@
             android:layout_below="@id/rv_chooseItem"
             android:text="@string/account" />
 
-        <TextView
-            style="@style/consumeItemStyle"
-            android:id="@+id/tv_setRemark"
+        <LinearLayout
+            android:id="@+id/ll_remark"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_below="@id/tv_setType"
-            android:text="@string/remark" />
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                style="@style/consumeItemStyle"
+                android:text="@string/remark"/>
+            <TextView
+                android:paddingRight="20dp"
+                android:gravity="right"
+                android:maxLines="1"
+                style="@style/consumeItemStyle"
+                android:id="@+id/tv_setRemark"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:text="" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@id/tv_setRemark"
+            android:layout_below="@id/ll_remark"
             android:text="@string/test" />
 
     </RelativeLayout>

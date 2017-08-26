@@ -36,7 +36,7 @@ public class MainOptionItemAdapter extends BaseAdapter<MainOptionalItem> {
 
 //        MainOptionalItem mainOptionalItem = mList.get(position);
         SimpleDraweeView simpleDraweeView = (SimpleDraweeView) baseViewHolder.findView(R.id.iv_item);
-//        simpleDraweeView.setImageURI();
+        simpleDraweeView.setImageURI("res:///"+mainOptionalItem.getImageId());
         baseViewHolder.findTextView(R.id.tv_item).setText(mContext.getString(mainOptionalItem.getTextId()));
         baseViewHolder.findView(R.id.ll_item).setOnClickListener(new View.OnClickListener() {
             @Override

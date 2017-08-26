@@ -49,7 +49,7 @@ public class ItemDetail extends AppCompatActivity {
         bu_delete = (Button) findViewById(R.id.bu_delete);
 
         cnToolbar.hideMiddleButton();
-        cnToolbar.getLeftButton().setOnClickListener(new View.OnClickListener() {
+        cnToolbar.setLeftButtonToBack().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
