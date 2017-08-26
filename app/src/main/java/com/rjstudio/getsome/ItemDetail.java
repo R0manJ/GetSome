@@ -106,7 +106,7 @@ public class ItemDetail extends AppCompatActivity {
         tv_amount.setText(consumeItem.getAmount()+"  $");
         tv_remark.setText(consumeItem.getRemark());
         tv_account.setText("null");
-        iv_type.setImageURI("file:///"+consumeItem.getTypeIcon());
+        iv_type.setImageURI("res:///"+consumeItem.getTypeIcon());
         tv_type.setText(consumeItem.getConsumeName());
 //        tv_type.setText(consumeItem.getConsumeType());
 //        iv_type.setImageURI();

@@ -17,10 +17,13 @@ import android.widget.Toast;
 import com.rjstudio.getsome.ItemDetail;
 import com.rjstudio.getsome.R;
 import com.rjstudio.getsome.adapter.VPItemAdapter;
+import com.rjstudio.getsome.bean.Consume;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
 import com.rjstudio.getsome.other.CnLinearLayoutManager;
+import com.rjstudio.getsome.other.DividerItemDecoration;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,43 +45,23 @@ public class ContentFragment extends Fragment {
     private long date;
     private VPItemAdapter vpItemAdapter;
     private DataProvider dataProvider;
+    private double totalAmount = 0;
 
     // HashMap
     // Date -- List
     public ContentFragment( ) {
         super();
         mList = new ArrayList<ConsumeItem>();
-    }
-
-    public void setData(List<ConsumeItem> list,Handler handler)
-    {
-//        Log.d(TAG, "setData: +"+list.size()+"---+m");
-        if (list != null)
-        {
-//            Log.d(TAG, "setData: not null ");
-//            Log.d(TAG, "setData: +"+list.size()+"---+m");
-            mList.addAll(list);
-        }
-        else 
-        {
-//            Log.d(TAG, "setData: null");
-        }
-
-        //test Data
-        for (ConsumeItem consumeItem : mList)
-        {
-            Log.d("XXX",consumeItem.getDate()+"--"+consumeItem.getConsumeName()+"");
-        }
-//        this.handler = handler;
 
     }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: complete");
         dataProvider = new DataProvider(getContext(),this.date);
         mList.clear();
-        mList = dataProvider.get(date);
     }
 
     public void setDate(Date date)
@@ -138,8 +121,7 @@ public class ContentFragment extends Fragment {
         rc_content.setAdapter(vpItemAdapter);
         rc_content.setLayoutManager(new CnLinearLayoutManager(getContext()));
         //Adapter
-
-        //setAdapter
+        rc_content.addItemDecoration(new DividerItemDecoration(getContext()));
 
     }
 
@@ -147,9 +129,26 @@ public class ContentFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        Log.d(TAG, "onResume: Fragment --- "+mList.size());
-        Log.d(TAG, "onResume: list.size = "+dataProvider.get(date).size());
+//        Log.d(TAG, "onResume: list.size = "+dataProvider.get(date).size());
         vpItemAdapter.refreshData(dataProvider.get(date));
+        calculateTotalAmount();
         vpItemAdapter.notifyItemRangeChanged(0,mList.size());
 
+    }
+
+    private void calculateTotalAmount()
+    {
+        mList = dataProvider.get(date);
+        if (mList != null && mList.size() >0)
+        {
+            BigDecimal bigDecimal = BigDecimal.valueOf(0);
+            for (ConsumeItem consumeItem : mList)
+            {
+                Log.d(TAG, "calculateTotalAmount: "+bigDecimal);
+                bigDecimal = bigDecimal.add(BigDecimal.valueOf(consumeItem.getAmount()));
+            }
+            totalAmount = bigDecimal.doubleValue();
+        }
+        tv_totalAmount.setText(totalAmount+"");
     }
 }

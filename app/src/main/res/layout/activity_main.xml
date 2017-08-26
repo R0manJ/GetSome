@@ -7,21 +7,20 @@
 
 
     <LinearLayout
-        android:padding="2dp"
-        android:background="@color/sienna"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
 
         <com.rjstudio.getsome.widget.CnToolbar
+            android:background="@color/ahorroBlack"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/toolbar"/>
 
         <android.support.v4.view.ViewPager
-            android:background="@color/Tan"
+            android:background="@color/ahorroRed"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
@@ -38,7 +37,7 @@
         android:layout_width="180dp"
         android:id="@+id/rv_chooseItem"
         android:layout_gravity="start"
-        android:background="@color/sienna"
+        android:background="@color/ahorroWhite"
         android:layout_height="match_parent"/>
 
 </android.support.v4.widget.DrawerLayout>

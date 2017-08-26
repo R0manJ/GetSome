@@ -23,6 +23,7 @@ import com.rjstudio.getsome.bean.DataProvider;
 import com.rjstudio.getsome.bean.DateReocord;
 import com.rjstudio.getsome.bean.MainOptionalItem;
 import com.rjstudio.getsome.fragment.ContentFragment;
+import com.rjstudio.getsome.other.DividerItemDecoration;
 import com.rjstudio.getsome.utility.JSONUtil;
 import com.rjstudio.getsome.utility.PreferencesUtils;
 import com.rjstudio.getsome.widget.CnButtomBar;
@@ -248,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rv_OptionalMenu = (RecyclerView) findViewById(R.id.rv_chooseItem);
         rv_OptionalMenu.setAdapter(mainOptionItemAdapter);
         rv_OptionalMenu.setLayoutManager(new LinearLayoutManager(this));
-
+        rv_OptionalMenu.addItemDecoration(new DividerItemDecoration(this));
         //ButtomBar
         cnButtomBar = (CnButtomBar) findViewById(R.id.buttomBar);
         cnButtomBar.setCurrentDate(ca.getTime(),this);

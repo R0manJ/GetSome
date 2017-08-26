@@ -39,11 +39,11 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
 
         if (optionalItem.isSelected())
         {
-            baseViewHolder.findView(R.id.ll_item).setBackgroundColor(mContext.getResources().getColor(R.color.Cyan));
+            baseViewHolder.findView(R.id.ll_item).setBackgroundColor(mContext.getResources().getColor(R.color.ahorroWhite2));
         }
         else
         {
-            baseViewHolder.findView(R.id.ll_item).setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+            baseViewHolder.findView(R.id.ll_item).setBackgroundColor(mContext.getResources().getColor(R.color.ahorroWhite));
         }
 
         baseViewHolder.findView(R.id.ll_item).setOnClickListener(new View.OnClickListener() {
@@ -57,12 +57,12 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
                 if (!optionalItem.isSelected())
                 {
                     optionalItem.setSelected(!optionalItem.isSelected());
-                    v.setBackgroundColor(mContext.getResources().getColor(R.color.Cyan));
+                    v.setBackgroundColor(mContext.getResources().getColor(R.color.ahorroWhite2));
                 }
                 else
                 {
                     optionalItem.setSelected(!optionalItem.isSelected());
-                    v.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+                    v.setBackgroundColor(mContext.getResources().getColor(R.color.ahorroWhite));
                 }
 
                 for (int i = 0; i < mList.size(); i++  )

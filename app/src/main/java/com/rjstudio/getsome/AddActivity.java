@@ -232,6 +232,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             public void onClick(View view, int position, boolean isSelect, OptionalItem optionalItem) {
                 consumeItem.setConsumeType(optionalItem.getTextId());
                 consumeItem.setTypeIcon(optionalItem.getImageId());
+                consumeItem.setConsumeName(getString(optionalItem.getTextId()));
                 Log.d(TAG, "onClick: "+optionalItem.getImageId()+"---"+optionalItem.getTextId()+"---text: "+getString(optionalItem.getTextId()));
             }
         });

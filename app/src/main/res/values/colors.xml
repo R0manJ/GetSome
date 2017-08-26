@@ -20,4 +20,13 @@
     <color name="sienna">#a0522d</color>
     <color name="BurlyWood">#cd853f</color>
     <color name="SandyBorwn">#f4a460</color>
+
+    <!--Ahorro-->
+    <color name="ahorroRed">#d43b3a</color>
+    <color name="ahorroRed2">#c32e2d</color>
+    <color name="ahorroWhite">#eef1d6</color>
+    <color name="ahorroWhite2">#c2c2bb</color>
+    <color name="ahorroBlue">#288c89</color>
+    <color name="ahorroBlack">#2e2f3a</color>
+    <color name="ahorroGreen">#70a61f</color>
 </resources>

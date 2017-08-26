@@ -1,7 +1,7 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/transparency"
+    android:background="@color/ahorroRed2"
     android:id="@+id/ll_item"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!--<com.facebook.drawee.view.SimpleDraweeView-->
