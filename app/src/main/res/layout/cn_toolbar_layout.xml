@@ -1,23 +1,24 @@
-<RelativeLayout
-    android:paddingTop="0dp"
+<RelativeLayout android:paddingTop="0dp"
     android:background="@color/sienna"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:padding="10dp"
+        android:paddingLeft="10dp"
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:id="@+id/bu_left">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_leftIcon"
+            fresco:failureImageScaleType="fitCenter"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
         <TextView
+            android:textSize="19sp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,11 +30,11 @@
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@null"
+        android:background="@drawable/calendar"
         android:layout_toRightOf="@id/bu_left"
         android:id="@+id/bu_middle"
         android:layout_marginLeft="70dp"
-        android:drawableLeft="@mipmap/ic_launcher_round"/>
+   />
 
     <Button
         android:layout_width="50dp"

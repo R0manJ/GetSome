@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rjstudio.getsome.adapter.OptionalItemAdapter;
+import com.rjstudio.getsome.adapter.VPItemAdapter;
 import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
 import com.rjstudio.getsome.bean.OptionalItem;
@@ -117,7 +118,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     }
                 });
 
-        cnToolbar.setRightButtonTexts(getResources().getString(R.string.save))
+
+
+        cnToolbar.setRightButtonToSave()
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -126,16 +129,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                         {
                             finish();
                         }
-//                        ConsumeItem consumeItem = new ConsumeItem();
-//                        consumeItem.setConsumeName("xxx"+"");
-//                        consumeItem.setTypeIcon(1);
-//                        consumeItem.setAmount(22.77f);
-//                        consumeItem.setConsumeType(1);
-//                        consumeItem.setDate(date);
-//                        dataProvider.put(consumeItem);
-//                        finish();
                     }
                 });
+
         //TODO : getApplication & this ?
         calculateLayout = LayoutInflater.from(this).inflate(R.layout.calculate_layout,null);
         cMWindows = new PopupWindow(calculateLayout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
@@ -231,6 +227,15 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false);
         gridLayoutManager.canScrollHorizontally();
         rv_optionalItem.setAdapter(optionalItemAdapter);
+        optionalItemAdapter.setOnItemClickListener(new OptionalItemAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isSelect, OptionalItem optionalItem) {
+                consumeItem.setConsumeType(optionalItem.getTextId());
+                consumeItem.setTypeIcon(optionalItem.getImageId());
+                Log.d(TAG, "onClick: "+optionalItem.getImageId()+"---"+optionalItem.getTextId()+"---text: "+getString(optionalItem.getTextId()));
+            }
+        });
+
         rv_optionalItem.setLayoutManager(gridLayoutManager);
     }
 

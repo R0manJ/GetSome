@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -97,6 +98,7 @@ public class ItemDetail extends AppCompatActivity {
         long date = consumeItem.getDate();
         dataProvider = new DataProvider(this,date);
         index = intent.getIntExtra("index",999);
+
     }
 
     private void setData()
@@ -104,6 +106,8 @@ public class ItemDetail extends AppCompatActivity {
         tv_amount.setText(consumeItem.getAmount()+"  $");
         tv_remark.setText(consumeItem.getRemark());
         tv_account.setText("null");
+        iv_type.setImageURI("file:///"+consumeItem.getTypeIcon());
+        tv_type.setText(consumeItem.getConsumeName());
 //        tv_type.setText(consumeItem.getConsumeType());
 //        iv_type.setImageURI();
     }

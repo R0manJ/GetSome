@@ -51,6 +51,7 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
             public void onClick(View v) {
 
 
+
                 itemNumber = position;
                 notifyItemChanged(recordPosition);
                 if (!optionalItem.isSelected())
@@ -74,7 +75,7 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
                 refreshSelected();
                 if (onItemClickListener != null)
                 {
-                    onItemClickListener.onClick(v,position,optionalItem.isSelected());
+                    onItemClickListener.onClick(v,position,optionalItem.isSelected(),optionalItem);
                 }
                 recordPosition = position;
 
@@ -86,8 +87,9 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
     {
         this.onItemClickListener = onItemClickListener;
     }
-    interface OnItemClickListener {
-        void onClick(View view,int position,boolean isSelected);
+
+    public interface OnItemClickListener {
+        void onClick(View view,int position,boolean isSelect,OptionalItem optionalItem);
     }
 
     private void refreshSelected()

@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     {
         drawerLayout = (DrawerLayout) findViewById(R.id.dl_main);
         toolbar = (CnToolbar) findViewById(R.id.toolbar);
-        toolbar.getLeftButton().setBackground(getDrawable(R.drawable.menu));
+//        toolbar.getLeftButton().setBackground(getDrawable(R.drawable.menu));
         toolbar.setLeftButtonTexts(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

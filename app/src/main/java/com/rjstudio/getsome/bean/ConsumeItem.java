@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class ConsumeItem implements Serializable{
+
     int ConsumeType;
     int TypeIcon;
     String ConsumeName;

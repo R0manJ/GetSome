@@ -29,6 +29,7 @@ public class CnToolbar extends Toolbar {
     private Button bu_right;
     private LinearLayout bu_left;
     private TextView tv_left;
+    private SimpleDraweeView sv_left;
 
     public CnToolbar(Context context) {
         this(context,null);
@@ -68,9 +69,10 @@ public class CnToolbar extends Toolbar {
             mView = mInflater.inflate(R.layout.cn_toolbar_layout,null);
 
             bu_left = (LinearLayout) mView.findViewById(R.id.bu_left);
-            SimpleDraweeView sv_left = (SimpleDraweeView) mView.findViewById(R.id.iv_leftIcon);
+            sv_left = (SimpleDraweeView) mView.findViewById(R.id.iv_leftIcon);
             tv_left = (TextView) mView.findViewById(R.id.tv_left);
             sv_left.setImageURI("res:///"+R.drawable.menu);
+
             bu_middle = (Button) mView.findViewById(R.id.bu_middle);
             bu_right = (Button) mView.findViewById(R.id.bu_right);
 
@@ -79,12 +81,9 @@ public class CnToolbar extends Toolbar {
         }
     }
 
-    public void setLeftButtonToBack()
-    {
-        tv_left.setText(getContext().getResources().getString(R.string.back));
-//        bu_left.setBackground(null);
-//        bu_left.setText(getContext().getResources().getString(R.string.back));
-    }
+
+
+
     public void setLeftButtonText(String text)
     {
 //        bu_left.setBackground();
@@ -127,4 +126,32 @@ public class CnToolbar extends Toolbar {
         setRightButtonText(text);
         return bu_right;
     }
+
+    public LinearLayout setLeftButtonToMenu()
+    {
+        sv_left.setImageURI("file:///"+R.drawable.menu);
+        return bu_left;
+    }
+
+    public LinearLayout setLeftButtonToBack()
+    {
+        sv_left.setImageURI("file:///"+R.drawable.back);
+        return bu_left;
+    }
+
+    public Button setRightButtonToSave()
+    {
+        bu_middle.setVisibility(View.INVISIBLE);
+        bu_right.setBackground(getResources().getDrawable(R.drawable.save));
+        return bu_right;
+    }
+
+    public Button setRightButtonToAdd()
+    {
+        bu_middle.setVisibility(View.VISIBLE);
+        bu_right.setBackground(getResources().getDrawable(R.drawable.edit));
+        return bu_right;
+    }
+
+
 }
