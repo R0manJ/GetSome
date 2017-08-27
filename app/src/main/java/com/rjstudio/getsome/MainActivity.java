@@ -11,25 +11,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.rjstudio.getsome.adapter.CnVPAdapter;
 import com.rjstudio.getsome.adapter.MainOptionItemAdapter;
-import com.rjstudio.getsome.bean.Consume;
-import com.rjstudio.getsome.bean.ConsumeItem;
 import com.rjstudio.getsome.bean.DataProvider;
-import com.rjstudio.getsome.bean.DateReocord;
 import com.rjstudio.getsome.bean.MainOptionalItem;
 import com.rjstudio.getsome.fragment.ContentFragment;
 import com.rjstudio.getsome.other.DividerItemDecoration;
-import com.rjstudio.getsome.utility.JSONUtil;
-import com.rjstudio.getsome.utility.PreferencesUtils;
 import com.rjstudio.getsome.widget.CnButtomBar;
 import com.rjstudio.getsome.widget.CnToolbar;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private SimpleDateFormat simpleDateFormat;
     private int lastPosition;
     private DataProvider dataProvider;
-    private List<List<ConsumeItem>> fragmentData;
-    private String initCurrentDate;
     private Calendar ca;
 
     private Handler DateHandler = new Handler()
@@ -68,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Date> dateList;
     private List<ContentFragment> fragmentList;
     private DrawerLayout drawerLayout;
-    private CnButtomBar cnButtomBar;
+    private CnButtomBar cnBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
             contentFragment = new ContentFragment();
             contentFragment.setDate(dateList.get(i));
             fragmentList.add(contentFragment);
+        }
+
+
+//            testing
+
+        for (ContentFragment con: fragmentList)
+        {
+            Log.d("Test","--"+con.getDate());
         }
     }
 
@@ -137,16 +136,62 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setLeftButtonToMenu(simpleDateFormat.format(ca.getTime())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.START);
 
             }
         });
 
-        toolbar.getLeftButton().setOnClickListener(new View.OnClickListener() {
+
+
+        final TimePickerView timePv = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+
+//                Toast.makeText(MainActivity.this, ""+date, Toast.LENGTH_SHORT).show();
+                Calendar calendar = ca;
+                calendar.setTime(date);
+                dateList = loadDateToFragment(2,calendar);
+                int index = 0;
+                for (ContentFragment contentFragment : fragmentList)
+                {
+                    contentFragment.setDate(dateList.get(index ++));
+                }
+
+                Log.d(TAG, "onTimeSelect: ing"+vp_content.getCurrentItem()+"---"+vp_content.getCurrentItem()%10);
+                vp_content.setCurrentItem(CnVPAdapter.positionIn3th);
+                Log.d(TAG, "onTimeSelect: ing2");
+
+                fragmentList.get(2).onResume();
+                Log.d(TAG, "onTimeSelect: ing3");
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+//                        toolbar.setLeftButtonText(editDate);
+                        toolbar.setLeftButtonText(simpleDateFormat.format(ca.getTime()));
+                    }
+                });
+
+            }
+        }).isCyclic(true)
+                .setType(new boolean[] {true,true,true,false,false,false})
+                .isDialog(true)
+                .setBgColor(getResources().getColor(R.color.ahorroWhite))
+                .setCancelColor(getResources().getColor(R.color.ahorroRed))
+                .setDate(ca)
+                .setSubmitColor(getResources().getColor(R.color.ahorroRed2))
+                .build();
+
+
+
+        toolbar.showMiddleButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.START);
+                timePv.show();
             }
         });
+
         toolbar.getRightButton().setBackground(getDrawable(R.drawable.edit));
         toolbar.getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                Toast.makeText(MainActivity.this, position%10+"", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, position%10+"", Toast.LENGTH_SHORT).show();
                 if (position > lastPosition)
                 {
                     ca.add(Calendar.DAY_OF_YEAR,1);
@@ -201,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d(TAG, "onPageSelected: +  "+indexOfRefreshExpenditure);
                 if (Integer.valueOf(indexOfRefreshExpenditure) == 1)
                 {
-                    cnButtomBar.refreshAmount(ca);
+                    cnBottomBar.refreshAmount(ca);
                 }
 
                 if (position % 10 == 2)
@@ -210,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Log.d(TAG, "DataList size "+ dateList.size());
 
                 }
-                else if (position % 10 == 5)
+                else if (position % 10 == 4)
                 {
                     dateList = loadDateToFragment(5);
 //                    Log.d(TAG, "DataList size "+ dateList.size());
@@ -251,19 +296,17 @@ public class MainActivity extends AppCompatActivity {
         rv_OptionalMenu.setAdapter(mainOptionItemAdapter);
         rv_OptionalMenu.setLayoutManager(new LinearLayoutManager(this));
         rv_OptionalMenu.addItemDecoration(new DividerItemDecoration(this));
-        //ButtomBar
-        cnButtomBar = (CnButtomBar) findViewById(R.id.buttomBar);
-        cnButtomBar.setCurrentDate(ca.getTime(),this);
-        cnButtomBar.setTotalBudget(1200);
+        //BottomBar
+        cnBottomBar = (CnButtomBar) findViewById(R.id.buttomBar);
+        cnBottomBar.setCurrentDate(ca.getTime(),this);
+        cnBottomBar.setTotalBudget(1200);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        cnButtomBar.refreshAmount(ca);
-//        Log.d(TAG, "onResume: ");
-//        cnVPAdapter.notifyDataSetChanged();
-//        cnVPAdapter.refreshData(list);
+        cnBottomBar.refreshAmount(ca);
+
     }
 
 
@@ -279,24 +322,29 @@ public class MainActivity extends AppCompatActivity {
             {
                 mList.add(ca.getTime());
                 ca.add(Calendar.DAY_OF_YEAR,1);
+//                Log.d(TAG, "loadDateToFragment: 2th "+ca.getTime());
             }
+//            Log.d(TAG, "loadDateToFragment: 2th---"+ca.getTime());
             ca.add(Calendar.DAY_OF_YEAR,-8);
             for (int i = 0 ; i < 5; i ++)
             {
-                mList.add(ca.getTime());
                 ca.add(Calendar.DAY_OF_YEAR,1);
+                mList.add(ca.getTime());
+//                Log.d(TAG, "loadDateToFragment: 2th "+ca.getTime());
             }
 //            Log.d(TAG, "loadDateToFragment: type == 1 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(0)==ca.getTime())+"---mList.size = "+mList.size());
+
         }
         else if (indication == 5)
         {
-            ca.add(Calendar.DAY_OF_YEAR,-5);
+            ca.add(Calendar.DAY_OF_YEAR,-4);
             for (int i = 0 ; i < 10; i ++)
             {
                 mList.add(ca.getTime());
                 ca.add(Calendar.DAY_OF_YEAR,1);
+                Log.d(TAG, "loadDateToFragment: 5th "+ca.getTime());
             }
-            ca.add(Calendar.DAY_OF_YEAR,-5);
+            ca.add(Calendar.DAY_OF_YEAR,-6);
 //            Log.d(TAG, "loadDateToFragment: type == 2 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(2)==ca.getTime()));
         }
         else if (indication == 7)
@@ -314,6 +362,72 @@ public class MainActivity extends AppCompatActivity {
                 ca.add(Calendar.DAY_OF_YEAR,1);
             }
             ca.add(Calendar.DAY_OF_YEAR,-3);
+//            Log.d(TAG, "loadDateToFragment: type == 7 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(6)==ca.getTime()));
+        }
+
+//
+//        for (Date date : mList)
+//        {
+//            Log.d(TAG, "Check date : "+ simpleDateFormat.format(date));
+//        }
+
+
+        return mList;
+
+    }
+
+    /**
+     *
+     * @param indication
+     * @param calendar
+     * @return
+     */
+    public List<Date> loadDateToFragment(int indication,Calendar calendar)
+    {
+        List<Date> mList = new ArrayList<>();
+        mList.clear();
+        if (indication == 2)
+        {
+            calendar.add(Calendar.DAY_OF_YEAR,-2);
+            for (int i = 0 ; i < 5 ;i ++)
+            {
+                mList.add(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
+            calendar.add(Calendar.DAY_OF_YEAR,-8);
+            for (int i = 0 ; i < 5; i ++)
+            {
+                mList.add(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
+//            Log.d(TAG, "loadDateToFragment: type == 1 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(0)==ca.getTime())+"---mList.size = "+mList.size());
+        }
+        else if (indication == 5)
+        {
+            calendar.add(Calendar.DAY_OF_YEAR,-4);
+            for (int i = 0 ; i < 10; i ++)
+            {
+                mList.add(ca.getTime());
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
+            calendar.add(Calendar.DAY_OF_YEAR,-6);
+//            Log.d(TAG, "loadDateToFragment: type == 2 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(2)==ca.getTime()));
+        }
+        else if (indication == 7)
+        {
+            calendar.add(Calendar.DAY_OF_YEAR, +3);
+            for (int i = 0 ; i < 5;i ++)
+            {
+                mList.add(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
+            calendar.add(Calendar.DAY_OF_YEAR,-10);
+            for (int i = 0 ; i < 5 ; i ++)
+            {
+                mList.add(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
+            calendar.add(Calendar.DAY_OF_YEAR,-3);
 //            Log.d(TAG, "loadDateToFragment: type == 7 "+ simpleDateFormat.format(ca.getTime())+"--isTrue: "+(mList.get(6)==ca.getTime()));
         }
 

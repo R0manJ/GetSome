@@ -108,9 +108,10 @@ public class CnToolbar extends Toolbar {
         //TODO : new Instance
         return null;
     }
-    public void showMiddleButton()
+    public Button showMiddleButton()
     {
         bu_middle.setVisibility(VISIBLE);
+        return bu_middle;
     }
 
     public Button getRightButton()

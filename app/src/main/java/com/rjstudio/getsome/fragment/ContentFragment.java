@@ -141,13 +141,14 @@ public class ContentFragment extends Fragment {
 
     private void calculateTotalAmount()
     {
+        Log.d(TAG, "calculateTotalAmount: --"+date);
         mList = dataProvider.get(date);
         if (mList != null && mList.size() >0)
         {
             BigDecimal bigDecimal = BigDecimal.valueOf(0);
             for (ConsumeItem consumeItem : mList)
             {
-                Log.d(TAG, "calculateTotalAmount: "+bigDecimal);
+//                Log.d(TAG, "calculateTotalAmount: "+bigDecimal);
                 bigDecimal = bigDecimal.add(BigDecimal.valueOf(consumeItem.getAmount()));
             }
             totalAmount = bigDecimal.doubleValue();

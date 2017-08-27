@@ -19,7 +19,8 @@
         android:textColor="@color/Black"
         android:text="@string/test"
         android:id="@+id/tv_budget"
-        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:gravity="center|left"
         android:layout_alignParentRight="true"/>
     <TextView
         android:textColor="@color/Black"
@@ -29,7 +30,7 @@
         android:layout_height="match_parent"
         android:text="@string/test"
         android:id="@+id/tv_surplus"
-        android:gravity="center"
+        android:gravity="right|center"
         android:layout_toLeftOf="@id/tv_budget"
         />
 

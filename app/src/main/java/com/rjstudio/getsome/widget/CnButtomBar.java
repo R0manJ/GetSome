@@ -124,11 +124,11 @@ public class CnButtomBar extends RelativeLayout {
                 expenditureNumer = bigDecimal.doubleValue();
                 break;
             }
-//            Log.d(TAG, "countExpenditure: "+expenditureNumer);
+//            Log.d(TAG, "countExpenditure: "+expenditureNumber);
 
         }
 //        Log.d(TAG, "countExpenditure: "+expenditureNumer);
-        expenditureNumer = BigDecimal.valueOf(1500).subtract(BigDecimal.valueOf(expenditureNumer)).doubleValue();
+        expenditureNumer = BigDecimal.valueOf(1200).subtract(BigDecimal.valueOf(expenditureNumer)).doubleValue();
         calendar.add(Calendar.MONTH,-1);
     }
 
@@ -150,7 +150,7 @@ public class CnButtomBar extends RelativeLayout {
         currentMonth = Integer.valueOf(sfForMonth.format(calendar.getTime()));
 //        this.calendar = calendar;
         countExpenditure();
-        tv_expenditure.setText(expenditureNumer+" ");
+        tv_expenditure.setText(expenditureNumer+" / ");
 //        Log.d(TAG, "refreshAmount: +"+expenditureNumer);
     }
 
