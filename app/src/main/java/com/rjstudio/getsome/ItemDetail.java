@@ -28,6 +28,7 @@ public class ItemDetail extends AppCompatActivity {
     private Button bu_delete;
     private DataProvider dataProvider;
     private int index;
+    private long date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,13 @@ public class ItemDetail extends AppCompatActivity {
         initView();
         initData();
         setData();
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        consumeItem = intent.getParcelableExtra("ConsumeItem");
+        Log.d("TEst", "startActivityForResult: ");
     }
 
     private void initView()
@@ -60,11 +68,15 @@ public class ItemDetail extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),AddActivity.class);
                 intent.putExtra("ConsumeItem",consumeItem);
+//                Log.d("Test", "onClick: "+intent.getLongExtra("Date",0));
+                intent.putExtra("Date",date);
+                intent.putExtra("index",getIntent().getIntExtra("index",99));
                 intent.putExtra("isNewItem",false);
-                startActivity(intent);
-
+//                startActivity(intent);
+                startActivityForResult(intent,909);
             }
         });
+
 
         bu_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +107,8 @@ public class ItemDetail extends AppCompatActivity {
     {
         Intent intent = getIntent();
         consumeItem = (ConsumeItem) intent.getSerializableExtra("ConsumeItem");
-        long date = consumeItem.getDate();
-        dataProvider = new DataProvider(this,date);
+        date = consumeItem.getDate();
+        dataProvider = new DataProvider(this, date);
         index = intent.getIntExtra("index",999);
 
     }
@@ -110,5 +122,15 @@ public class ItemDetail extends AppCompatActivity {
         tv_type.setText(consumeItem.getConsumeName());
 //        tv_type.setText(consumeItem.getConsumeType());
 //        iv_type.setImageURI();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 909)
+        {
+            consumeItem = (ConsumeItem) data.getSerializableExtra("ConsumeItem");
+            setData();
+        }
     }
 }

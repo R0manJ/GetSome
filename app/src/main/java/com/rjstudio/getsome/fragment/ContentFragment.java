@@ -59,7 +59,7 @@ public class ContentFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: complete");
+//        Log.d(TAG, "onCreate: complete");
         dataProvider = new DataProvider(getContext(),this.date);
         mList.clear();
     }
@@ -69,7 +69,7 @@ public class ContentFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String da = sdf.format(date);
         this.date = Long.parseLong(da);
-        Log.d(TAG, "setDate: "+this.date+"---");
+//        Log.d(TAG, "setDate: "+this.date+"---");
     }
 
     public long getDate()
@@ -114,6 +114,9 @@ public class ContentFragment extends Fragment {
                 Intent intent = new Intent(getContext(), ItemDetail.class);
                 intent.putExtra("isNewItem",true);
                 intent.putExtra("index",position);
+                Log.d(TAG, "onClick: recyclerView item "+date);
+                intent.putExtra("Date",date);
+                Log.d(TAG, "onClick: Position"+position);
                 intent.putExtra("ConsumeItem",consumeItem);
                 startActivity(intent);
             }

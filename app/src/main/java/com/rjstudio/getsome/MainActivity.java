@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Log.d(TAG, "handleMessage: "+msg.obj);
+//            Log.d(TAG, "handleMessage: "+msg.obj);
             //oolbar.getLeftButton().setText(msg.obj+"");
         }
     };
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         mainOptionalItem.setImageId(R.drawable.setting);
         mainOptionalItem.setTextId(R.string.setting);
         mList.add(mainOptionalItem);
-        Log.d(TAG, "initOptionalItem: list size "+mList.size());
+//        Log.d(TAG, "initOptionalItem: list size "+mList.size());
         return mList;
     }
 
@@ -155,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
                 //当前日期是ca，ca的日期时间传过去
 
                 intent.putExtra("Date",Long.parseLong(simpleDateFormat.format(ca.getTime())));
-                Log.d(TAG, "onClick: "+currentDate);
+                intent.putExtra("isNewItem",true);
+//                Log.d(TAG, "onClick: "+currentDate);
                 startActivity(intent);
             }
         });
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 //20180601
                 //20170821
                 String indexOfRefreshExpenditure = simpleDateFormat.format(ca.getTime()).substring(6,8);
-                Log.d(TAG, "onPageSelected: +  "+indexOfRefreshExpenditure);
+//                Log.d(TAG, "onPageSelected: +  "+indexOfRefreshExpenditure);
                 if (Integer.valueOf(indexOfRefreshExpenditure) == 1)
                 {
                     cnButtomBar.refreshAmount(ca);
@@ -206,24 +207,24 @@ public class MainActivity extends AppCompatActivity {
                 if (position % 10 == 2)
                 {
                     dateList = loadDateToFragment(2);
-                    Log.d(TAG, "DataList size "+ dateList.size());
+//                    Log.d(TAG, "DataList size "+ dateList.size());
 
                 }
                 else if (position % 10 == 5)
                 {
                     dateList = loadDateToFragment(5);
-                    Log.d(TAG, "DataList size "+ dateList.size());
+//                    Log.d(TAG, "DataList size "+ dateList.size());
                 }
                 else if (position % 10 == 7)
                 {
                     dateList = loadDateToFragment(7);
-                    Log.d(TAG, "DataList size "+ dateList.size());
+//                    Log.d(TAG, "DataList size "+ dateList.size());
                 }
 
                 int index = 0;
                 for (ContentFragment contentFragment : fragmentList)
                 {
-                    Log.d(TAG, "onPageSelected: +fl = "+fragmentList.size()+"--"+dateList.size());
+//                    Log.d(TAG, "onPageSelected: +fl = "+fragmentList.size()+"--"+dateList.size());
                     contentFragment.setDate(dateList.get(index ++));
                 }
 

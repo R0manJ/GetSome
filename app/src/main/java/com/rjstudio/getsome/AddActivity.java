@@ -83,6 +83,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private ConsumeItem consumeItem;
     private List<OptionalItem> optionalItemList;
     private LinearLayout ll_setRemark;
+    private int recordPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
 
         date = intent.getLongExtra("Date",0);
+        recordPosition = intent.getIntExtra("index",99);
+        Log.d(TAG, "initData: date "+date+" -- position = "+recordPosition);
 //        Log.d(TAG,"long:"+Long.parseLong(currentDate));
         dataProvider = new DataProvider(this,date);
         consumeItem = new ConsumeItem();
@@ -170,16 +173,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+        initOptionalItemLayout();
+
         if (!intent.getBooleanExtra("isNewItem",true))
         {
-            ConsumeItem consumeItem = (ConsumeItem) intent.getSerializableExtra("ConsumeItem");
+            consumeItem = (ConsumeItem) intent.getSerializableExtra("ConsumeItem");
             number = consumeItem.getAmount();
             tv_amount.setText(number+"  $");
             //TODO : Type
         }
 
         initRemarkSetLayout();
-        initOptionalItemLayout();
         keyboardLogic();
 
     }
@@ -548,6 +552,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 //        bit ++;
     }
 
+
     private boolean setConsumeItemToDataProvider()
     {
         if (!tv_amount.getText().equals("0.0"))
@@ -573,9 +578,20 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             consumeItem.setConsumeType(optionalItemAdapter.getItemNumber());
         }
 
+
         consumeItem.setRemark(tv_setRemark.getText()+"");
         consumeItem.setDate(date);
-        dataProvider.put(consumeItem);
+        if (intent.getBooleanExtra("isNewItem",true))
+        {
+            dataProvider.put(consumeItem);
+        }
+        else
+        {
+            dataProvider.upDate(recordPosition,consumeItem);
+            intent.putExtra("ConsumeItem",consumeItem);
+            setResult(909,intent);
+        }
+        Log.d(TAG, "setConsumeItemToDataProvider: "+consumeItem.getAmount()+"--"+consumeItem.getConsumeName()+"--"+consumeItem.getTypeIcon());
         return true;
 
     }

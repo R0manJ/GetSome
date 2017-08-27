@@ -44,7 +44,14 @@ public class VPItemAdapter extends BaseAdapter<ConsumeItem> {
     {
         list.clear();
         list.addAll(newData);
-        notifyItemRangeChanged(0,newData.size());
+        if (newData.size() == 0)
+        {
+            notifyItemChanged(0);
+        }
+        else
+        {
+            notifyItemRangeChanged(0,newData.size());
+        }
     }
 
     public interface OnItemClickListener{

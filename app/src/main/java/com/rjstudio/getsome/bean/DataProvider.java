@@ -152,6 +152,15 @@ public class DataProvider {
         commit();
     }
 
+//    Update
+    public void upDate(int index,ConsumeItem newConsumeItem)
+    {
+        consumeItemList.remove(index);
+        consumeItemList.add(index,newConsumeItem);
+        commit();
+//        return ;
+    }
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
     public List<ConsumeItem> get(Date date)
