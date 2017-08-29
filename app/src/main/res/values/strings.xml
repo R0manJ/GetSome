@@ -28,4 +28,5 @@
     <string name="dinner">DINNER</string>
     <string name="shopping">SHOPPING</string>
     <string name="other">OTHER</string>
+    <string name="transfer">TRANSFER</string>
 </resources>

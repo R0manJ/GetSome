@@ -105,8 +105,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         date = intent.getLongExtra("Date",0);
         recordPosition = intent.getIntExtra("index",99);
-        Log.d(TAG, "initData: date "+date+" -- position = "+recordPosition);
+//        Log.d(TAG, "initData: date "+date+" -- position = "+recordPosition);
 //        Log.d(TAG,"long:"+Long.parseLong(currentDate));
+
         dataProvider = new DataProvider(this,date);
         consumeItem = new ConsumeItem();
 
@@ -181,6 +182,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             number = consumeItem.getAmount();
             tv_amount.setText(number+"  $");
             //TODO : Type
+            Log.d(TAG, "initView: consume type :"+consumeItem.getConsumeType());
+            optionalItemList.get(consumeItem.getConsumeType()).setSelected(true);
         }
         tv_setRemark.setText(consumeItem.getRemark());
         initRemarkSetLayout();
@@ -207,26 +210,37 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         OptionalItem optionalItem = new OptionalItem();
         optionalItem.setImageId(R.drawable.breakfast);
         optionalItem.setTextId(R.string.breakfast);
+        optionalItem.setIndex(0);
         optionalItemList.add(optionalItem);
 
         optionalItem = new OptionalItem();
         optionalItem.setImageId(R.drawable.lunch);
         optionalItem.setTextId(R.string.lunch);
+        optionalItem.setIndex(1);
         optionalItemList.add(optionalItem);
 
         optionalItem = new OptionalItem();
         optionalItem.setImageId(R.drawable.dinner);
         optionalItem.setTextId(R.string.dinner);
+        optionalItem.setIndex(2);
         optionalItemList.add(optionalItem);
 
         optionalItem = new OptionalItem();
         optionalItem.setImageId(R.drawable.shopping);
         optionalItem.setTextId(R.string.shopping);
+        optionalItem.setIndex(3);
         optionalItemList.add(optionalItem);
 
         optionalItem = new OptionalItem();
         optionalItem.setImageId(R.drawable.other);
         optionalItem.setTextId(R.string.other);
+        optionalItem.setIndex(4);
+        optionalItemList.add(optionalItem);
+
+        optionalItem = new OptionalItem();
+        optionalItem.setImageId(R.drawable.transfer);
+        optionalItem.setTextId(R.string.transfer);
+        optionalItem.setIndex(5);
         optionalItemList.add(optionalItem);
 
 
@@ -239,7 +253,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         optionalItemAdapter.setOnItemClickListener(new OptionalItemAdapter.OnItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isSelect, OptionalItem optionalItem) {
-                consumeItem.setConsumeType(optionalItem.getTextId());
+                consumeItem.setConsumeType(position);
                 consumeItem.setTypeIcon(optionalItem.getImageId());
                 consumeItem.setConsumeName(getString(optionalItem.getTextId()));
                 Log.d(TAG, "onClick: "+optionalItem.getImageId()+"---"+optionalItem.getTextId()+"---text: "+getString(optionalItem.getTextId()));
@@ -570,7 +584,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if (optionalItemAdapter.getItemNumber() > optionalItemList.size())
         {
 
-            Toast.makeText(context, "请选择项目", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "请选择项目"+optionalItemAdapter.getItemNumber(), Toast.LENGTH_SHORT).show();
             return false;
         }
         else

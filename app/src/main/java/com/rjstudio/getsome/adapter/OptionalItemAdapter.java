@@ -39,6 +39,7 @@ public class OptionalItemAdapter extends BaseAdapter<OptionalItem> {
 
         if (optionalItem.isSelected())
         {
+            itemNumber = optionalItem.getIndex();
             baseViewHolder.findView(R.id.ll_item).setBackgroundColor(mContext.getResources().getColor(R.color.ahorroWhite2));
         }
         else
