@@ -139,6 +139,7 @@ public class ContentFragment extends Fragment {
 
     }
 
+
     private void calculateTotalAmount()
     {
         Log.d(TAG, "calculateTotalAmount: --"+date);

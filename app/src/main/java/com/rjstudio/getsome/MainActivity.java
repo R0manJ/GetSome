@@ -150,7 +150,31 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.makeText(MainActivity.this, ""+date, Toast.LENGTH_SHORT).show();
                 Calendar calendar = ca;
                 calendar.setTime(date);
-                dateList = loadDateToFragment(2,calendar);
+
+
+                Log.d(TAG, "onTimeSelect: "+ vp_content.getCurrentItem()%10);
+                if (vp_content.getCurrentItem()%10 > 5)
+                {
+                    calendar.add(Calendar.DAY_OF_YEAR,4 - (vp_content.getCurrentItem()%10) );
+                    dateList = loadDateToFragment(5,calendar);
+                    ca.setTime(dateList.get(vp_content.getCurrentItem()%10));
+                }
+                else if (vp_content.getCurrentItem()%10 < 5)
+                {
+                    calendar.add(Calendar.DAY_OF_YEAR,4-(vp_content.getCurrentItem()%10));
+                    dateList = loadDateToFragment(5,calendar);
+                    ca.setTime(dateList.get(vp_content.getCurrentItem()%10));
+                    Log.d(TAG, "onTimeSelect: +"+ca.getTime());
+//                    calendar.add(Calendar.DAY_OF_YEAR,(vp_content.getCurrentItem()%10) - 5);
+
+                }
+                else
+                {
+                    calendar.add(Calendar.DAY_OF_YEAR,-1);
+                    dateList = loadDateToFragment(5,calendar);
+                    ca.setTime(dateList.get(vp_content.getCurrentItem()%10));
+                }
+
                 int index = 0;
                 for (ContentFragment contentFragment : fragmentList)
                 {
@@ -158,12 +182,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Log.d(TAG, "onTimeSelect: ing"+vp_content.getCurrentItem()+"---"+vp_content.getCurrentItem()%10);
-                vp_content.setCurrentItem(CnVPAdapter.positionIn3th);
-                Log.d(TAG, "onTimeSelect: ing2");
+//                vp_content.setCurrentItem(CnVPAdapter.positionIn3th);
 
-                fragmentList.get(2).onResume();
-                Log.d(TAG, "onTimeSelect: ing3");
-
+                fragmentList.get(vp_content.getCurrentItem()%10).onResume();
+                fragmentList.get(vp_content.getCurrentItem()%10-1).onResume();
+                fragmentList.get(vp_content.getCurrentItem()%10+1).onResume();
+//                fragmentList.get(vp_content.getCurrentItem()%10 - 1).onResume();
+//                fragmentList.get(vp_content.getCurrentItem()%10 + 1).onResume();
                 runOnUiThread(new Runnable() {
 
                     @Override
@@ -407,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
             calendar.add(Calendar.DAY_OF_YEAR,-4);
             for (int i = 0 ; i < 10; i ++)
             {
+                Log.d(TAG, "loadDateToFragment: 5th "+ ca.getTime());
                 mList.add(ca.getTime());
                 calendar.add(Calendar.DAY_OF_YEAR,1);
             }

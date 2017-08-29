@@ -182,7 +182,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             tv_amount.setText(number+"  $");
             //TODO : Type
         }
-
+        tv_setRemark.setText(consumeItem.getRemark());
         initRemarkSetLayout();
         keyboardLogic();
 

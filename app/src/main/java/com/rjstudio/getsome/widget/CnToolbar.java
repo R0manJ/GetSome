@@ -5,8 +5,10 @@ import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,6 +62,43 @@ public class CnToolbar extends Toolbar {
         setContentInsetsRelative(10,10);
     }
 
+
+    String TAG ="action test";
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        switch (ev.getAction())
+//        {
+//            case MotionEvent.ACTION_DOWN:
+//                Log.d(TAG, "onTouchEvent: down");
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                Log.d(TAG, "onTouchEvent: up");
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                Log.d(TAG, "onTouchEvent: mmmmm");
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_UP:
+//                Log.d("***", "ACTION_UP");
+//                break;
+//            case MotionEvent.ACTION_DOWN:
+//                Log.d("***", "ACTION_DOWN");
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                Log.d("***", "ACTION_MOVE");
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        return super.onTouchEvent(ev);
+//
+//    }
 
     private void initView()
     {
