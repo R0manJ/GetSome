@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.rjstudio.getsome.MainActivity;
 import com.rjstudio.getsome.R;
+import com.rjstudio.getsome.StatisticsActivity;
 import com.rjstudio.getsome.bean.MainOptionalItem;
 
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public class MainOptionItemAdapter extends BaseAdapter<MainOptionalItem> {
                         Toast.makeText(mContext, "2", Toast.LENGTH_SHORT).show();
                         //NotifyDataChangeRange
                         //Income
+                        Intent intent = new Intent(mContext, StatisticsActivity.class);
+                        mContext.startActivity(intent);
                         break;
                     case 3:
                         Toast.makeText(mContext, "3", Toast.LENGTH_SHORT).show();

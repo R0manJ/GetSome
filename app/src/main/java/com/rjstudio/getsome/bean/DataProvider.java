@@ -1,11 +1,14 @@
 package com.rjstudio.getsome.bean;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.rjstudio.getsome.other.MyDataBaseOpenHelper;
 import com.rjstudio.getsome.utility.JSONUtil;
 import com.rjstudio.getsome.utility.PreferencesUtils;
 
@@ -31,8 +34,13 @@ public class DataProvider {
     Calendar calendar = Calendar.getInstance();
 
     String TAG = "TEST";
+    private final MyDataBaseOpenHelper myDataBaseOpenHelper;
+    private final SQLiteDatabase sqLiteDatabase;
+
     public DataProvider(Context context,Long date)
     {
+        myDataBaseOpenHelper = new MyDataBaseOpenHelper(context,"Usr_data",null,1);
+        sqLiteDatabase = myDataBaseOpenHelper.getWritableDatabase();
 
         mContext = context;
 //        datas = new SparseArray<>();
@@ -122,10 +130,9 @@ public class DataProvider {
     //删除数据
     public void deleteConsumeItem(int index)
     {
-        Log.d(TAG, "deleteConsumeItem: list size"+consumeItemList.size());
-//        consumeItemList.remove(consumeItem);
+        Log.d(TAG, "deleteConsumeItem: "+consumeItemList.get(index).getDate()+"----"+consumeItemList.get(index).getIndex());
+        sqLiteDatabase.delete("CONSUME_ITEM_RECORD","Date=? and IndexRecord=?",new String[]{consumeItemList.get(index).getDate()+"",consumeItemList.get(index).getIndex()+""});
         consumeItemList.remove(index);
-        Log.d(TAG, "deleteConsumeItem: list size change "+consumeItemList.size());
         commit();
     }
     //修改数据
@@ -140,6 +147,7 @@ public class DataProvider {
     {
         PreferencesUtils.putString(mContext,date+"",JSONUtil.toJson(consumeItemList));
         Log.d("TEST",date+"的数据已被修改"+JSONUtil.toJson(consumeItemList));
+        sqLiteDatabase.close();
     }
 
     public void put(ConsumeItem consumeItem)
@@ -149,14 +157,44 @@ public class DataProvider {
 //        DateReocord dateReocords = datas.get(date.intValue());
 //        List<ConsumeItem> consumeItems = dateReocords.getmList();
         consumeItemList.add(consumeItem);
+
+        ContentValues values = new ContentValues();
+//        "Date int," +
+//                "Index int," +
+//                "ConsumeName text," +
+//                "ConsumeType int," +
+//                "TypeIcon int," +
+//                "Amount double," +
+//                "Remark text)";
+        values.put("Date",consumeItem.getDate());
+        values.put("IndexRecord",consumeItem.getIndex());
+        values.put("ConsumeName",consumeItem.getConsumeName());
+//        values.put("ConsumeType",consumeItem.getConsumeType());
+        values.put("TypeIcon",consumeItem.getTypeIcon());
+        values.put("Amount",consumeItem.getAmount());
+        values.put("Remark",consumeItem.getRemark());
+
+        sqLiteDatabase.insert("CONSUME_ITEM_RECORD",null,values);
         commit();
     }
 
 //    Update
     public void upDate(int index,ConsumeItem newConsumeItem)
     {
+
+        ContentValues values = new ContentValues();
+
+        values.put("Date",newConsumeItem.getDate());
+        values.put("IndexRecord",newConsumeItem.getIndex());
+        values.put("ConsumeName",newConsumeItem.getConsumeName());
+        values.put("TypeIcon",newConsumeItem.getTypeIcon());
+        values.put("Amount",newConsumeItem.getAmount());
+        values.put("Remark",newConsumeItem.getRemark());
+
+        sqLiteDatabase.update("CONSUME_ITEM_RECORD",values,"Date = ? and IndexRecord = ?",new String[]{consumeItemList.get(index).getDate()+"",consumeItemList.get(index).getIndex()+""});
         consumeItemList.remove(index);
         consumeItemList.add(index,newConsumeItem);
+
         commit();
 //        return ;
     }

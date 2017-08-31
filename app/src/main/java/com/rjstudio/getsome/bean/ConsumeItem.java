@@ -14,6 +14,15 @@ public class ConsumeItem implements Serializable{
     double Amount;
     long date;
     String remark;
+    int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public String getRemark() {
         return remark;

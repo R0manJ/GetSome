@@ -255,6 +255,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             public void onClick(View view, int position, boolean isSelect, OptionalItem optionalItem) {
                 consumeItem.setConsumeType(position);
                 consumeItem.setTypeIcon(optionalItem.getImageId());
+//                consumeItem.setIndex((int)(Math.random()*1000000+100 ));
                 consumeItem.setConsumeName(getString(optionalItem.getTextId()));
                 Log.d(TAG, "onClick: "+optionalItem.getImageId()+"---"+optionalItem.getTextId()+"---text: "+getString(optionalItem.getTextId()));
             }
@@ -595,6 +596,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         consumeItem.setRemark(tv_setRemark.getText()+"");
         consumeItem.setDate(date);
+
+        consumeItem.setIndex((int)(Math.random()*10000+100 ));
+        Toast.makeText(context, ""+consumeItem.getIndex(), Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "setConsumeItemToDataProvider: "+consumeItem.getIndex());
         if (intent.getBooleanExtra("isNewItem",true))
         {
             dataProvider.put(consumeItem);

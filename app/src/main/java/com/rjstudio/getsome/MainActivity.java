@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.rjstudio.getsome.adapter.CnVPAdapter;
@@ -55,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
             //oolbar.getLeftButton().setText(msg.obj+"");
         }
     };
-    private ContentFragment contentFragment;
     private List<Date> dateList;
     private List<ContentFragment> fragmentList;
     private DrawerLayout drawerLayout;
     private CnButtomBar cnBottomBar;
+//    private int recordIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,12 +93,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//            testing
-
-        for (ContentFragment con: fragmentList)
-        {
-            Log.d("Test","--"+con.getDate());
-        }
     }
 
     private List<MainOptionalItem> initOptionalItem()
@@ -223,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),AddActivity.class);
                 //当前日期是ca，ca的日期时间传过去
-
+//                intent.putExtra("recordIndex",recordIndex);
                 intent.putExtra("Date",Long.parseLong(simpleDateFormat.format(ca.getTime())));
                 intent.putExtra("isNewItem",true);
 //                Log.d(TAG, "onClick: "+currentDate);
@@ -307,6 +302,8 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.setLeftButtonText(simpleDateFormat.format(ca.getTime()));
                     }
                 });
+//                recordIndex = list.get(position%10).getConsmeItemListSize();
+//                Toast.makeText(MainActivity.this, "---"+recordIndex, Toast.LENGTH_SHORT).show();
             }
 
             @Override

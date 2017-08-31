@@ -156,4 +156,9 @@ public class ContentFragment extends Fragment {
         }
         tv_totalAmount.setText(totalAmount+"");
     }
+
+    public int getConsmeItemListSize()
+    {
+        return mList.size();
+    }
 }
